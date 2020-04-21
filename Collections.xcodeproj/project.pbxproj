@@ -3,17 +3,33 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		9AFDF8BC8103F41E6CB63C26 /* Pods_Collections.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DBF61CC394D2BA5A330A056 /* Pods_Collections.framework */; };
 		A454D8AA244C53CE003EFF28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A454D8A9244C53CE003EFF28 /* AppDelegate.swift */; };
-		A454D8AC244C53CE003EFF28 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A454D8AB244C53CE003EFF28 /* SceneDelegate.swift */; };
-		A454D8AE244C53CE003EFF28 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A454D8AD244C53CE003EFF28 /* ViewController.swift */; };
+		A454D8AE244C53CE003EFF28 /* CollectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A454D8AD244C53CE003EFF28 /* CollectionsViewController.swift */; };
 		A454D8B1244C53CE003EFF28 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A454D8AF244C53CE003EFF28 /* Main.storyboard */; };
 		A454D8B3244C53CE003EFF28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A454D8B2244C53CE003EFF28 /* Assets.xcassets */; };
 		A454D8B6244C53CE003EFF28 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A454D8B4244C53CE003EFF28 /* LaunchScreen.storyboard */; };
+		A454D8BE244C6929003EFF28 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A454D8BD244C6929003EFF28 /* GoogleService-Info.plist */; };
+		A454D8E0244C6AF4003EFF28 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A454D8DF244C6AF4003EFF28 /* SceneDelegate.swift */; };
+		A46C11CC244DA89100E78174 /* CollectionTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CB244DA89100E78174 /* CollectionTableViewDataSource.swift */; };
+		A46C11D0244DAA9D00E78174 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CD244DAA9D00E78174 /* Collection.swift */; };
+		A46C11D1244DAA9D00E78174 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CE244DAA9D00E78174 /* Item.swift */; };
+		A46C11D2244DAA9D00E78174 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CF244DAA9D00E78174 /* User.swift */; };
+		A46C11D5244EC82400E78174 /* Firestore+Populate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D4244EC82400E78174 /* Firestore+Populate.swift */; };
+		A46C11D8244EC95A00E78174 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D7244EC95A00E78174 /* Utils.swift */; };
+		A46C11DB244EC9FE00E78174 /* ItemsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D9244EC9FE00E78174 /* ItemsTableViewDataSource.swift */; };
+		A46C11DC244EC9FE00E78174 /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11DA244EC9FE00E78174 /* LocalCollection.swift */; };
+		A46C11E0244ECBE400E78174 /* AddCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11DE244ECBE400E78174 /* AddCollectionViewController.swift */; };
+		A46C11E1244ECBE400E78174 /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11DF244ECBE400E78174 /* CollectionTableViewCell.swift */; };
+		A46C11F4244ECDB300E78174 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11EF244ECDB300E78174 /* EditItemViewController.swift */; };
+		A46C11F5244ECDB300E78174 /* ItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F0244ECDB300E78174 /* ItemTableViewController.swift */; };
+		A46C11F6244ECDB300E78174 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F1244ECDB300E78174 /* AddItemViewController.swift */; };
+		A46C11F7244ECDB300E78174 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F2244ECDB300E78174 /* ItemDetailViewController.swift */; };
+		A46C11F8244ECDB300E78174 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F3244ECDB300E78174 /* ItemTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,12 +38,28 @@
 		651DF9427864673B6D77CD00 /* Pods-Collections.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Collections.release.xcconfig"; path = "Target Support Files/Pods-Collections/Pods-Collections.release.xcconfig"; sourceTree = "<group>"; };
 		A454D8A6244C53CE003EFF28 /* Collections.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Collections.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A454D8A9244C53CE003EFF28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A454D8AB244C53CE003EFF28 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A454D8AD244C53CE003EFF28 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A454D8AD244C53CE003EFF28 /* CollectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsViewController.swift; sourceTree = "<group>"; };
 		A454D8B0244C53CE003EFF28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A454D8B2244C53CE003EFF28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A454D8B5244C53CE003EFF28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A454D8B7244C53CE003EFF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A454D8BD244C6929003EFF28 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A454D8DF244C6AF4003EFF28 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A46C11CB244DA89100E78174 /* CollectionTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableViewDataSource.swift; sourceTree = "<group>"; };
+		A46C11CD244DAA9D00E78174 /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
+		A46C11CE244DAA9D00E78174 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		A46C11CF244DAA9D00E78174 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A46C11D4244EC82400E78174 /* Firestore+Populate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firestore+Populate.swift"; sourceTree = "<group>"; };
+		A46C11D7244EC95A00E78174 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		A46C11D9244EC9FE00E78174 /* ItemsTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsTableViewDataSource.swift; sourceTree = "<group>"; };
+		A46C11DA244EC9FE00E78174 /* LocalCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
+		A46C11DE244ECBE400E78174 /* AddCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCollectionViewController.swift; sourceTree = "<group>"; };
+		A46C11DF244ECBE400E78174 /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
+		A46C11EF244ECDB300E78174 /* EditItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
+		A46C11F0244ECDB300E78174 /* ItemTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewController.swift; sourceTree = "<group>"; };
+		A46C11F1244ECDB300E78174 /* AddItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
+		A46C11F2244ECDB300E78174 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
+		A46C11F3244ECDB300E78174 /* ItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,15 +103,63 @@
 		A454D8A8244C53CE003EFF28 /* Collections */ = {
 			isa = PBXGroup;
 			children = (
+				A46C11E4244ECD3900E78174 /* Item */,
+				A46C11DD244ECB9500E78174 /* Collection */,
+				A46C11D6244EC8BE00E78174 /* Commons */,
+				A46C11D3244DAAA500E78174 /* Models */,
 				A454D8A9244C53CE003EFF28 /* AppDelegate.swift */,
-				A454D8AB244C53CE003EFF28 /* SceneDelegate.swift */,
-				A454D8AD244C53CE003EFF28 /* ViewController.swift */,
-				A454D8AF244C53CE003EFF28 /* Main.storyboard */,
+				A454D8DF244C6AF4003EFF28 /* SceneDelegate.swift */,
 				A454D8B2244C53CE003EFF28 /* Assets.xcassets */,
 				A454D8B4244C53CE003EFF28 /* LaunchScreen.storyboard */,
+				A454D8AF244C53CE003EFF28 /* Main.storyboard */,
 				A454D8B7244C53CE003EFF28 /* Info.plist */,
+				A454D8BD244C6929003EFF28 /* GoogleService-Info.plist */,
 			);
 			path = Collections;
+			sourceTree = "<group>";
+		};
+		A46C11D3244DAAA500E78174 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A46C11CF244DAA9D00E78174 /* User.swift */,
+				A46C11CD244DAA9D00E78174 /* Collection.swift */,
+				A46C11CE244DAA9D00E78174 /* Item.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A46C11D6244EC8BE00E78174 /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				A46C11D9244EC9FE00E78174 /* ItemsTableViewDataSource.swift */,
+				A46C11DA244EC9FE00E78174 /* LocalCollection.swift */,
+				A46C11CB244DA89100E78174 /* CollectionTableViewDataSource.swift */,
+				A46C11D4244EC82400E78174 /* Firestore+Populate.swift */,
+				A46C11D7244EC95A00E78174 /* Utils.swift */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		A46C11DD244ECB9500E78174 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				A454D8AD244C53CE003EFF28 /* CollectionsViewController.swift */,
+				A46C11DE244ECBE400E78174 /* AddCollectionViewController.swift */,
+				A46C11DF244ECBE400E78174 /* CollectionTableViewCell.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		A46C11E4244ECD3900E78174 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				A46C11F1244ECDB300E78174 /* AddItemViewController.swift */,
+				A46C11EF244ECDB300E78174 /* EditItemViewController.swift */,
+				A46C11F2244ECDB300E78174 /* ItemDetailViewController.swift */,
+				A46C11F3244ECDB300E78174 /* ItemTableViewCell.swift */,
+				A46C11F0244ECDB300E78174 /* ItemTableViewController.swift */,
+			);
+			path = Item;
 			sourceTree = "<group>";
 		};
 		D6C82070BBD5CAB05B56E92A /* Pods */ = {
@@ -88,7 +168,6 @@
 				50D9134E3ED8574557366377 /* Pods-Collections.debug.xcconfig */,
 				651DF9427864673B6D77CD00 /* Pods-Collections.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -154,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A454D8B6244C53CE003EFF28 /* LaunchScreen.storyboard in Resources */,
+				A454D8BE244C6929003EFF28 /* GoogleService-Info.plist in Resources */,
 				A454D8B3244C53CE003EFF28 /* Assets.xcassets in Resources */,
 				A454D8B1244C53CE003EFF28 /* Main.storyboard in Resources */,
 			);
@@ -225,9 +305,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A454D8AE244C53CE003EFF28 /* ViewController.swift in Sources */,
+				A46C11CC244DA89100E78174 /* CollectionTableViewDataSource.swift in Sources */,
+				A46C11D0244DAA9D00E78174 /* Collection.swift in Sources */,
+				A46C11D8244EC95A00E78174 /* Utils.swift in Sources */,
+				A46C11DB244EC9FE00E78174 /* ItemsTableViewDataSource.swift in Sources */,
+				A454D8AE244C53CE003EFF28 /* CollectionsViewController.swift in Sources */,
+				A46C11D5244EC82400E78174 /* Firestore+Populate.swift in Sources */,
 				A454D8AA244C53CE003EFF28 /* AppDelegate.swift in Sources */,
-				A454D8AC244C53CE003EFF28 /* SceneDelegate.swift in Sources */,
+				A46C11F7244ECDB300E78174 /* ItemDetailViewController.swift in Sources */,
+				A46C11D1244DAA9D00E78174 /* Item.swift in Sources */,
+				A46C11F4244ECDB300E78174 /* EditItemViewController.swift in Sources */,
+				A46C11F5244ECDB300E78174 /* ItemTableViewController.swift in Sources */,
+				A46C11F6244ECDB300E78174 /* AddItemViewController.swift in Sources */,
+				A46C11E0244ECBE400E78174 /* AddCollectionViewController.swift in Sources */,
+				A46C11DC244EC9FE00E78174 /* LocalCollection.swift in Sources */,
+				A46C11F8244ECDB300E78174 /* ItemTableViewCell.swift in Sources */,
+				A454D8E0244C6AF4003EFF28 /* SceneDelegate.swift in Sources */,
+				A46C11E1244ECBE400E78174 /* CollectionTableViewCell.swift in Sources */,
+				A46C11D2244DAA9D00E78174 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
