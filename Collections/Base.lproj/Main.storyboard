@@ -153,13 +153,13 @@
                     <navigationItem key="navigationItem" title="Add collection" id="xQp-Ya-rqi">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="cNX-RT-Jjp">
                             <connections>
-                                <action selector="didPressSaveButton:" destination="nsy-WA-dWu" id="Opg-xN-rAm"/>
+                                <action selector="didPressSaveButton:" destination="nsy-WA-dWu" id="Hp0-TX-BFw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="collectionNameTextField" destination="sXg-n6-gTV" id="DpN-46-1Vt"/>
+                        <outlet property="collectionNameTextField" destination="sXg-n6-gTV" id="qt5-oS-YAT"/>
                         <segue destination="D9C-Yt-VWt" kind="unwind" identifier="unwindToMyCollectionsSegue" unwindAction="unwindToMyCollectionsWithSegue:" id="wF6-Xv-8UZ"/>
                     </connections>
                 </viewController>

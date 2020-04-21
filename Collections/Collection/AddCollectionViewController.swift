@@ -11,8 +11,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 
-class AddCollectionViewController: UIViewController
-{
+class AddCollectionViewController: UIViewController {
     
     // MARK: Properties
 
@@ -32,13 +31,15 @@ class AddCollectionViewController: UIViewController
     }
     
     func saveChanges() {
-      guard let name = collectionNameTextField.text else {
+        guard let name = collectionNameTextField.text, !name.isEmpty
+        else {
           self.presentInvalidDataAlert(message: "Name must be filled out.")
           return
       }
         collection.name = name
         print("Going to save document data as \(collection.documentData)")
-        let ref = Firestore.firestore().collections.document(collection.documentID)
+        let ref = Firestore.firestore().collections
+            .document(collection.documentID)
         ref.setData(collection.documentData) { error in
             if let error = error {
                 print("Error writing document: \(error)")
@@ -58,7 +59,6 @@ class AddCollectionViewController: UIViewController
     
     // MARK: IBActions
 
- 
     @IBAction func didPressSaveButton(_ sender: Any) {
         print("did press save")
         saveChanges()
