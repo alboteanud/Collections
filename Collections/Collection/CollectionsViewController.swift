@@ -37,10 +37,12 @@ class CollectionsViewController: UIViewController {
     
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var usernameLabel: UILabel!
-    @IBOutlet private var viewRestaurantsButton: UIButton!
+    @IBOutlet private var settingsButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     // Not weak because we might remove it
     @IBOutlet var signOutButton: UIBarButtonItem!
+    @IBOutlet var addCollectionButton: UIBarButtonItem!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,14 +93,16 @@ class CollectionsViewController: UIViewController {
         if let user = user {
             profileImageView.sd_setImage(with: user.photoURL)
             usernameLabel.text = user.name
-            viewRestaurantsButton.isHidden = false
+            settingsButton.isHidden = false
             signInButton.isHidden = true
+            addCollectionButton.isEnabled = true
             self.navigationItem.leftBarButtonItem = signOutButton
         } else {
             profileImageView.image = nil
             usernameLabel.text = "Sign in, why don'cha?"
-            viewRestaurantsButton.isHidden = true
+            settingsButton.isHidden = true
             signInButton.isHidden = false
+            addCollectionButton.isEnabled = false
             self.navigationItem.leftBarButtonItem = nil
         }
     }
@@ -146,6 +150,13 @@ class CollectionsViewController: UIViewController {
             print("Error signing out: \(error)")
         }
     }
+    
+    @IBAction func unwindToMyCollections(segue: UIStoryboardSegue) {}
+     
+     @IBAction private func didTapAddCollectionButton(_ sender: Any) {
+       let controller = AddCollectionViewController.fromStoryboard()
+       self.navigationController?.pushViewController(controller, animated: true)
+     }
     
 }
 

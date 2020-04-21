@@ -36,14 +36,14 @@ class AddCollectionViewController: UIViewController
           self.presentInvalidDataAlert(message: "Name must be filled out.")
           return
       }
-      collection.name = name
-      print("Going to save document data as \(collection.documentData)")
-      Firestore.firestore().collections.document(collection.documentID)
-          .setData(collection.documentData) { error in
+        collection.name = name
+        print("Going to save document data as \(collection.documentData)")
+        let ref = Firestore.firestore().collections.document(collection.documentID)
+        ref.setData(collection.documentData) { error in
             if let error = error {
-              print("Error writing document: \(error)")
+                print("Error writing document: \(error)")
             } else {
-              print("Write confirmed by the server")
+                print("Write confirmed by the server")
             }
       }
       self.presentDidSaveAlert()
