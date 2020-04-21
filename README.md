@@ -1,3 +1,3 @@
 Collections application for iOS
 
-![Image description](screen1.jpg)
+![screenshot iPhone login](screen1.png)
