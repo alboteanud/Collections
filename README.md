@@ -1,6 +1,6 @@
 Collections application for iOS, powered by Cloud Firestore on iOS with Swift.
 
-Credit to the ![Google Cloud Firestore IOS Codelab] (https://codelabs.developers.google.com/codelabs/firebase-cloud-firestore-workshop-swift/index.html?index=..%2F..index#0)
+Credit to [Google Cloud Firestore IOS Codelab](https://codelabs.developers.google.com/codelabs/firebase-cloud-firestore-workshop-swift/index.html?index=..%2F..index#0)
 
 ![screenshot iPhone login methods](screenshots/screen0.png)
 
