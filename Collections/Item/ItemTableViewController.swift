@@ -10,7 +10,7 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
     
     private var collection: Collection!
     private var user: User!
-    fileprivate var dataSource: ItemsTableViewDataSource!
+    fileprivate var dataSource: ItemTableViewDataSource!
     
     // MARK: Outlets
     
@@ -34,7 +34,7 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
       // or present a login flow if the user is unexpectedly nil.
      
         let query = Firestore.firestore().items(forCollection: collection.documentID)
-      dataSource = ItemsTableViewDataSource(query: query) { (changes) in
+      dataSource = ItemTableViewDataSource(query: query) { (changes) in
         self.tableView.reloadData()
         self.title = self.collection.name
       }

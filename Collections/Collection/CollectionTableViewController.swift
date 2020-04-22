@@ -7,7 +7,7 @@ import SDWebImage
 let urlTermsOfService = URL(string: "https://sunshine-f15bf.firebaseapp.com/")!
 let urlPrivacyPolicy = URL(string: "https://sunshine-f15bf.firebaseapp.com/")!
 
-class CollectionsViewController: UIViewController {
+class CollectionTableViewController: UIViewController {
     
     /// The current user displayed by the controller. Setting this property has side effects.
     fileprivate var user: User? = nil {
@@ -30,11 +30,10 @@ class CollectionsViewController: UIViewController {
         return label
     }()
     
-    private var dataSource: CollectionTableViewDataSource? = nil
+    fileprivate var dataSource: CollectionTableViewDataSource? = nil
     private var authListener: AuthStateDidChangeListenerHandle? = nil
     
     @IBOutlet private var tableView: UITableView!
-    
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var usernameLabel: UILabel!
     @IBOutlet private var settingsButton: UIButton!
@@ -43,12 +42,12 @@ class CollectionsViewController: UIViewController {
     @IBOutlet var signOutButton: UIBarButtonItem!
     @IBOutlet var addCollectionButton: UIBarButtonItem!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableBackgroundLabel.text = "There aren't any collections here."
         tableView.backgroundView = tableBackgroundLabel
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,10 +56,10 @@ class CollectionsViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { (auth, newUser) in
             self.setUser(firebaseUser: newUser)
         }
+              tableView.delegate = self
     }
     
     @IBAction func didTapSignInButton(_ sender: Any) {
-        print("sign in tapped")
         presentLoginController()
     }
     
@@ -108,7 +107,7 @@ class CollectionsViewController: UIViewController {
     }
     
     fileprivate func populateCollections(forUser user: User) {
-        let query = Firestore.firestore().collections.whereField("userInfo.userID", isEqualTo: user.userID)
+        let query = Firestore.firestore().collections.whereField("ownerID", isEqualTo: user.userID)
         dataSource = CollectionTableViewDataSource(query: query) { [unowned self] (changes) in
             self.tableView.reloadData()
             guard let dataSource = self.dataSource else { return }
@@ -158,5 +157,17 @@ class CollectionsViewController: UIViewController {
        self.navigationController?.pushViewController(controller, animated: true)
      }
     
+}
+
+// MARK: - UITableViewDelegate
+
+   extension CollectionTableViewController: UITableViewDelegate {
+
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       tableView.deselectRow(at: indexPath, animated: true)
+        guard let collection = dataSource?[indexPath.row] else { return }
+       let controller = ItemTableViewController.fromStoryboard(collection: collection)
+       self.navigationController?.pushViewController(controller, animated: true)
+     }
 }
 

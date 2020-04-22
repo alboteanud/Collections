@@ -5,7 +5,7 @@ import FirebaseFirestore
 /// A class that populates a table view using RestaurantTableViewCell cells
 /// with restaurant data from a Firestore query. Consumers should update the
 /// table view with new data from Firestore in the updateHandler closure.
-@objc class ItemsTableViewDataSource: NSObject, UITableViewDataSource {
+@objc class ItemTableViewDataSource: NSObject, UITableViewDataSource {
 
   private let items: LocalCollection<Item>
 

@@ -44,8 +44,6 @@ import FirebaseFirestore
     public var count: Int {
       return collections.count
     }
-
-    // MARK: - UITableViewDataSource
     
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
