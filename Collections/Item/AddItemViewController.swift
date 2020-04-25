@@ -10,7 +10,7 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     private var collection: Collection!
     private var user: User!
     private lazy var item: Item = {
-        return Item( name: "", detail: "", photoURL: Item.randomPhotoURL())
+        return Item( name: "", extraText: "", photoURL: Item.randomPhotoURL())
     }()
     private var imagePicker = UIImagePickerController()
     private var downloadUrl: String?
@@ -21,6 +21,7 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     @IBOutlet private weak var descriptionTextField: UITextField!
     @IBOutlet private weak var itemImageView: UIImageView!
     @IBOutlet fileprivate weak var addPhotoButton: UIButton!
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     
     static func fromStoryboard(_ storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil),  collection: Collection)
         -> AddItemViewController {
@@ -40,12 +41,12 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     
     func saveChanges() {
         guard let detail = descriptionTextField.text,
-            let name = itemNameTextField.text else {
+            let name = itemNameTextField.text, !name.isEmpty else {
                 self.presentInvalidDataAlert(message: "Name must be filled out.")
                 return
         }
         item.name = name
-        item.detail = detail
+        item.extraText = detail
         // if photo was changed, add the new url
         if let downloadUrl = downloadUrl {
           item.photoURL = URL(string: downloadUrl)!
@@ -93,21 +94,24 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     }
     
     func saveImage(photoData: Data) {
-      let storageRef = Storage.storage().reference(withPath: item.documentID)
-      storageRef.putData(photoData, metadata: nil) { (metadata, error) in
-        if let error = error {
-          print(error)
-          return
+        loadingIndicator.isHidden = false
+        let storagePath = "images/\(collection.documentID)/\(item.documentID)"
+        let storageRef = Storage.storage().reference(withPath: storagePath)
+        storageRef.putData(photoData, metadata: nil) { (metadata, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            storageRef.downloadURL { (url, error) in
+                if let error = error {
+                    print(error)
+                }
+                if let url = url {
+                    self.downloadUrl = url.absoluteString
+                }
+                self.loadingIndicator.isHidden = true
+            }
         }
-        storageRef.downloadURL { (url, error) in
-          if let error = error {
-            print(error)
-          }
-          if let url = url {
-            self.downloadUrl = url.absoluteString
-          }
-        }
-      }
     }
     
 }

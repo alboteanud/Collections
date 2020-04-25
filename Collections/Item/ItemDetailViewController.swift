@@ -26,7 +26,7 @@ class ItemDetailViewController: UIViewController {
         super.viewDidLoad()
 
         self.title = item.name
-        detailLabel.text = item.detail
+        detailLabel.text = item.extraText
     }
 
     override func viewWillAppear(_ animated: Bool) {

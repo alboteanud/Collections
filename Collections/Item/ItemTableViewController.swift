@@ -57,6 +57,12 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
     
     @IBAction func unwindToItemsWithSegue (_ unwindSegue: UIStoryboardSegue) { }
     
+    
+    @IBAction func didTapEditButton(_ sender: Any) {
+        let controller = EditCollectionViewController.fromStoryboard(collection: collection)
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
       set {}
       get {

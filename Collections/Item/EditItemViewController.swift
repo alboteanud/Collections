@@ -24,6 +24,7 @@ class EditItemViewController: UIViewController, UINavigationControllerDelegate{
     @IBOutlet private weak var itemNameTextField: UITextField!
     @IBOutlet weak var itemDetailTextField: UITextField!
     @IBOutlet weak var changePhotoButton: UIButton!
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     
     static func fromStoryboard(_ storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil),
                                item: Item) -> EditItemViewController {
@@ -46,13 +47,13 @@ class EditItemViewController: UIViewController, UINavigationControllerDelegate{
     // populate item with current data
     func populateItemScene() {
         itemNameTextField.text = item.name
-        itemDetailTextField.text = item.detail
+        itemDetailTextField.text = item.extraText
         itemImageView.sd_setImage(with: item.photoURL)
     }
     
     func saveChanges() {
         guard let detail = itemDetailTextField.text,
-            let name = itemNameTextField.text else {
+            let name = itemNameTextField.text, !name.isEmpty else {
                 self.presentInvalidDataAlert(message: "Name field must be filled out.")
                 return
         }
@@ -60,12 +61,16 @@ class EditItemViewController: UIViewController, UINavigationControllerDelegate{
             "name": name,
             "detail": detail
             ] as [String : Any]
+        
+        
         // if photo was changed, add the new url
         if let downloadUrl = downloadUrl {
             data["photoURL"] = downloadUrl
         }
-        
-        let ref = Firestore.firestore().items(forCollection: item.collectionID)
+        guard let collectionID = item.collectionID else {
+            return
+        }
+        let ref = Firestore.firestore().items(forCollection: collectionID)
             .document(item.documentID)
         
         ref.updateData(data) { err in
@@ -153,6 +158,7 @@ class EditItemViewController: UIViewController, UINavigationControllerDelegate{
     }
     
     func saveImage(photoData: Data) {
+        loadingIndicator.isHidden = false
         let storageRef = Storage.storage().reference(withPath: item.documentID)
         storageRef.putData(photoData, metadata: nil) { (metadata, error) in
             if let error = error {
@@ -166,6 +172,7 @@ class EditItemViewController: UIViewController, UINavigationControllerDelegate{
                 if let url = url {
                     self.downloadUrl = url.absoluteString
                 }
+                self.loadingIndicator.isHidden = true
             }
         }
     }
