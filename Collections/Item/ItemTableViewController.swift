@@ -51,7 +51,7 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
 
     
     @IBAction func didTapAddItemButton(_ sender: Any) {
-        let controller = AddItemViewController.fromStoryboard(collection: collection)
+        let controller = ItemViewController.fromStoryboard(collection: collection)
         self.navigationController?.pushViewController(controller, animated: true)
     }
     

@@ -3,7 +3,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 
-class AddItemViewController: UIViewController, UINavigationControllerDelegate{
+class ItemViewController: UIViewController, UINavigationControllerDelegate{
         
     // MARK: Properties
     
@@ -24,9 +24,9 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     
     static func fromStoryboard(_ storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil),  collection: Collection)
-        -> AddItemViewController {
+        -> ItemViewController {
             let controller = storyboard.instantiateViewController(withIdentifier: "AddItemViewController")
-                as! AddItemViewController
+                as! ItemViewController
             controller.collection = collection
             return controller
     }
@@ -73,7 +73,8 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     }
     
     @IBAction func didPressSelectImageButton(_ sender: Any) {
-        selectImage()
+//        selectImage()
+        showChooseSourceTypeAlertController()
     }
 
     // MARK: Alert Messages
@@ -116,23 +117,41 @@ class AddItemViewController: UIViewController, UINavigationControllerDelegate{
     
 }
 
-extension AddItemViewController: UIImagePickerControllerDelegate {
+extension ItemViewController: UIImagePickerControllerDelegate {
     
-    func selectImage() {
-      imagePicker.delegate = self
-      if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
-
-        imagePicker.sourceType = .savedPhotosAlbum;
-        imagePicker.allowsEditing = false
-
-        self.present(imagePicker, animated: true, completion: nil)
-      }
+    func showChooseSourceTypeAlertController() {
+        let photoLibraryAction = UIAlertAction(title: "Choose a Photo", style: .default) { (action) in
+            self.showImagePickerController(sourceType: .savedPhotosAlbum)
+        }
+        let cameraAction = UIAlertAction(title: "Take a New Photo", style: .default) { (action) in
+            self.showImagePickerController(sourceType: .camera)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        var options = [photoLibraryAction, cancelAction]
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            options.append(cameraAction)
+        }
+        AlertService.showAlert(style: .actionSheet, title: nil, message: nil, actions: options, completion: nil)
+    }
+    
+    func showImagePickerController(sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType){
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.allowsEditing = true
+            imagePickerController.sourceType = sourceType
+            present(imagePickerController, animated: true, completion: nil)
+        }
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
-      if let photo = info[UIImagePickerController.InfoKey.originalImage] as? UIImage, let photoData = photo.jpegData(compressionQuality: 0.8) {
-        self.itemImageView.image = photo
+        if let editedImage = info[UIImagePickerController.InfoKey.editedImage]
+            as? UIImage,
+            let photoData = editedImage.jpegData(compressionQuality: 0.9)
+//            let photoData = editedImage.resizeImage(1000.0, opaque: false).jpegData(compressionQuality: 0.8)
+        {
+        self.itemImageView.image = editedImage
         self.addPhotoButton.titleLabel?.text = ""
         self.addPhotoButton.backgroundColor = UIColor.clear
         saveImage(photoData: photoData)
@@ -153,3 +172,45 @@ extension UIViewController {
     view.endEditing(true)
   }
 }
+
+extension UIImage {
+    func resizeImage(_ dimension: CGFloat, opaque: Bool, contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImage {
+           var width: CGFloat
+           var height: CGFloat
+           var newImage: UIImage
+
+           let size = self.size
+           let aspectRatio =  size.width/size.height
+
+           switch contentMode {
+               case .scaleAspectFit:
+                   if aspectRatio > 1 {                            // Landscape image
+                       width = dimension
+                       height = dimension / aspectRatio
+                   } else {                                        // Portrait image
+                       height = dimension
+                       width = dimension * aspectRatio
+                   }
+
+           default:
+               fatalError("UIIMage.resizeToFit(): FATAL: Unimplemented ContentMode")
+           }
+
+           if #available(iOS 10.0, *) {
+               let renderFormat = UIGraphicsImageRendererFormat.default()
+               renderFormat.opaque = opaque
+               let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height), format: renderFormat)
+               newImage = renderer.image {
+                   (context) in
+                   self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+               }
+           } else {
+               UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), opaque, 0)
+                   self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+                   newImage = UIGraphicsGetImageFromCurrentImageContext()!
+               UIGraphicsEndImageContext()
+           }
+
+           return newImage
+       }
+   }
