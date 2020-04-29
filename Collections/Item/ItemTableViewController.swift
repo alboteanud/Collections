@@ -8,7 +8,7 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
     
     // MARK: Properties
     
-    private var collection: Collection!
+    var collection: Collection!
     private var user: User!
     fileprivate var dataSource: ItemTableViewDataSource!
     
@@ -16,72 +16,118 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     
-    static func fromStoryboard(_ storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil), collection: Collection) -> ItemTableViewController {
-      let controller = storyboard.instantiateViewController(withIdentifier: "ItemTableViewController")
-          as! ItemTableViewController
-      controller.collection = collection
-      return controller
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
         
-         user = User(user: Auth.auth().currentUser!)
-      // These should all be nonnull. The user can be signed out by an event
-      // outside of the app, like a password change, but we're ignoring that case
-      // for simplicity. In a real-world app, you should dismiss this view controller
-      // or present a login flow if the user is unexpectedly nil.
-     
+        user = User(user: Auth.auth().currentUser!)
+        // These should all be nonnull. The user can be signed out by an event
+        // outside of the app, like a password change, but we're ignoring that case
+        // for simplicity. In a real-world app, you should dismiss this view controller
+        // or present a login flow if the user is unexpectedly nil.
+        
         let query = Firestore.firestore().items(forCollection: collection.documentID)
-      dataSource = ItemTableViewDataSource(query: query) { (changes) in
-        self.tableView.reloadData()
+        dataSource = ItemTableViewDataSource(query: query) { (changes) in
+            self.tableView.reloadData()
+         
+        }
         self.title = self.collection.name
-      }
-
-      tableView.dataSource = dataSource
-      dataSource.startUpdates()
-      tableView.delegate = self
+        
+        tableView.dataSource = dataSource
+        dataSource.startUpdates()
+        tableView.delegate = self
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
-      super.viewWillDisappear(animated)
-      dataSource.stopUpdates()
+        super.viewWillDisappear(animated)
+        dataSource.stopUpdates()
     }
-
+    
     
     @IBAction func didTapAddItemButton(_ sender: Any) {
-        let controller = ItemViewController.fromStoryboard(collection: collection)
-        self.navigationController?.pushViewController(controller, animated: true)
+//        let controller = ItemViewController.fromStoryboard(collection: collection)
+//        self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    @IBAction func unwindToItemsWithSegue (_ unwindSegue: UIStoryboardSegue) { }
-    
-    
-    @IBAction func didTapEditButton(_ sender: Any) {
-        let controller = EditCollectionViewController.fromStoryboard(collection: collection)
-        self.navigationController?.pushViewController(controller, animated: true)
+    @IBAction func unwindToCollectionItemsWithSegue (_ unwindSegue: UIStoryboardSegue) {
+        let saveSegueID = EditCollectionViewController.GlobalVariables.saveSegueID
+        
+        // check if we're comming back from EditCollectionViewController. Just edited the collection.
+        if unwindSegue.identifier == saveSegueID {
+           let sourceViewController = unwindSegue.source as? EditCollectionViewController
+            if let modifiedCollection = sourceViewController?.collection {
+                collection = modifiedCollection
+                self.title = collection.name
+            }
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-      set {}
-      get {
-        return .lightContent
-      }
+        set {}
+        get {
+            return .lightContent
+        }
     }
-
+    
     deinit {
-      dataSource.stopUpdates()
+        dataSource.stopUpdates()
     }
     
     // MARK: - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       tableView.deselectRow(at: indexPath, animated: true)
-        var item = dataSource[indexPath.row]
-        item.collectionID = collection.documentID
-        let controller = ItemDetailViewController.fromStoryboard(item: item)
-       self.navigationController?.pushViewController(controller, animated: true)
-     }
+        tableView.deselectRow(at: indexPath, animated: true)
+//        var item = dataSource[indexPath.row]
+//        item.collectionID = collection.documentID
+//        let controller = ItemDetailViewController.fromStoryboard(item: item)
+//        self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    //MARK: - Navigation
+
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+        case "AddItem":
+            print("Adding a new collection.")
+            let destination = segue.destination as? UINavigationController
+            guard let itemViewController = destination?.topViewController as? ItemViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            itemViewController.collection = collection
+            
+        case "ShowItem":
+            guard let itemViewController = segue.destination as? ItemViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedItemCell = sender as? ItemTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedItem = dataSource?[indexPath.row]
+            itemViewController.itemToEdit = selectedItem
+            itemViewController.collection = collection
+            
+        case "EditCollection":
+            guard let collectionViewController = segue.destination as? EditCollectionViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            collectionViewController.collection = collection
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        }
+    }
+
     
 }

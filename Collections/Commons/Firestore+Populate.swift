@@ -12,6 +12,10 @@ extension Firestore {
       return self.collection("collections")
     }
     
+    func aCollection(forCollection collectionID: String) -> DocumentReference {
+        return self.collection("collections").document(collectionID)
+       }
+    
     /// Returns a reference to the top-level items collection.
      var collectionItems: CollectionReference {
        return self.collection("collectionItems")

@@ -44,10 +44,8 @@ class CollectionTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableBackgroundLabel.text = "There aren't any collections here."
         tableView.backgroundView = tableBackgroundLabel
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +54,7 @@ class CollectionTableViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { (auth, newUser) in
             self.setUser(firebaseUser: newUser)
         }
-              tableView.delegate = self
+        //              tableView.delegate = self
     }
     
     @IBAction func didTapSignInButton(_ sender: Any) {
@@ -78,10 +76,7 @@ class CollectionTableViewController: UIViewController {
         if let firebaseUser = firebaseUser {
             let user = User(user: firebaseUser)
             self.user = user
-            Firestore.firestore().users.document(user.userID).setData(user.documentData) { error in
-                if let error = error {
-                    print("Error writing user to Firestore: \(error)")
-                }
+            Firestore.firestore().users.document(user.userID).setData(user.documentData) { error in if let error = error {  print("Error writing user to Firestore: \(error)")}
             }
         } else {
             user = nil
@@ -150,24 +145,57 @@ class CollectionTableViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindToMyCollections(segue: UIStoryboardSegue) {}
-     
-     @IBAction private func didTapAddCollectionButton(_ sender: Any) {
-       let controller = AddCollectionViewController.fromStoryboard()
-       self.navigationController?.pushViewController(controller, animated: true)
-     }
+    //    @IBAction func unwindToMyCollections(segue: UIStoryboardSegue) {}
+    
+    //MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        super.prepare(for: segue, sender: sender)
+        
+        switch(segue.identifier ?? "") {
+            
+        case "AddCollection":
+            print("Adding a new collection.")
+            
+        case "ShowCollection":
+            guard let itemTableViewController = segue.destination as? ItemTableViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedCollectionCell = sender as? CollectionTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedCollectionCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedCollection = dataSource?[indexPath.row]
+            itemTableViewController.collection = selectedCollection
+            
+        default:
+            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+        }
+    }
+    
+    @IBAction func unwindToCollections(_ unwindSegue: UIStoryboardSegue) {
+        let sourceViewController = unwindSegue.source
+        // Use data from the view controller which initiated the unwind segue
+    }
     
 }
 
 // MARK: - UITableViewDelegate
 
-   extension CollectionTableViewController: UITableViewDelegate {
-
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       tableView.deselectRow(at: indexPath, animated: true)
-        guard let collection = dataSource?[indexPath.row] else { return }
-       let controller = ItemTableViewController.fromStoryboard(collection: collection)
-       self.navigationController?.pushViewController(controller, animated: true)
-     }
-}
+//   extension CollectionTableViewController: UITableViewDelegate {
+//
+//     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//       tableView.deselectRow(at: indexPath, animated: true)
+////        guard let collection = dataSource?[indexPath.row] else { return }
+////       let controller = ItemTableViewController.fromStoryboard(collection: collection)
+////       self.navigationController?.pushViewController(controller, animated: true)
+//     }
+//}
 

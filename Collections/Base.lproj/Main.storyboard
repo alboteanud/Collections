@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--My Collections-->
+        <!--Collections-->
         <scene sceneID="QHu-zU-SLQ">
             <objects>
                 <viewController storyboardIdentifier="CollectionTableViewController" id="xni-Ie-JJY" customClass="CollectionTableViewController" customModule="Collections" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,6 +82,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="nameLabel" destination="KoB-aa-tM1" id="dzv-DQ-IxE"/>
+                                            <segue destination="7Ja-sS-AW9" kind="show" identifier="ShowCollection" id="3Je-gE-DqX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -96,7 +97,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iWP-h9-NFp"/>
                     </view>
-                    <navigationItem key="navigationItem" title="My Collections" id="XVA-GX-XCt">
+                    <navigationItem key="navigationItem" title="Collections" id="XVA-GX-XCt">
                         <barButtonItem key="leftBarButtonItem" title="Sign Out" id="hFq-st-hcQ">
                             <connections>
                                 <action selector="didTapSignOutButton:" destination="xni-Ie-JJY" id="0TR-Va-WhL"/>
@@ -105,6 +106,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Way-0u-f0o">
                             <connections>
                                 <action selector="didTapAddCollectionButton:" destination="xni-Ie-JJY" id="c6q-dU-Rbw"/>
+                                <segue destination="0ps-P2-Tmn" kind="presentation" identifier="AddCollection" id="yFz-KR-TSo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -121,7 +123,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WVe-gs-AQM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1236" y="883"/>
+            <point key="canvasLocation" x="398" y="1044"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="A00-zP-84c">
@@ -137,18 +139,18 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lmf-Am-F3j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172" y="882"/>
+            <point key="canvasLocation" x="-382" y="1044"/>
         </scene>
-        <!--Add collection-->
+        <!--New Collection-->
         <scene sceneID="StS-Pj-JzI">
             <objects>
-                <viewController storyboardIdentifier="AddCollectionViewController" title="Add collection" id="nsy-WA-dWu" customClass="AddCollectionViewController" customModule="Collections" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddCollectionViewController" id="nsy-WA-dWu" customClass="AddCollectionViewController" customModule="Collections" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mum-qi-2eA">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Collection Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sXg-n6-gTV">
-                                <rect key="frame" x="16" y="144" width="343" height="34"/>
+                                <rect key="frame" x="16" y="156" width="343" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -161,23 +163,73 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kny-zL-zh8"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Add collection" id="xQp-Ya-rqi">
+                    <navigationItem key="navigationItem" title="New Collection" id="xQp-Ya-rqi">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Pgl-3b-nNK">
+                            <connections>
+                                <segue destination="D9C-Yt-VWt" kind="unwind" identifier="unwindToCollectionsSegue" unwindAction="unwindToCollections:" id="Wae-lP-zDP"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="cNX-RT-Jjp">
                             <connections>
-                                <action selector="didPressSaveButton:" destination="nsy-WA-dWu" id="Hp0-TX-BFw"/>
+                                <action selector="didPressSaveButton:" destination="nsy-WA-dWu" id="bFK-m9-R0S"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="collectionNameTextField" destination="sXg-n6-gTV" id="qt5-oS-YAT"/>
-                        <segue destination="D9C-Yt-VWt" kind="unwind" identifier="unwindToMyCollectionsSegue" unwindAction="unwindToMyCollectionsWithSegue:" id="wF6-Xv-8UZ"/>
+                        <outlet property="collectionNameTextField" destination="sXg-n6-gTV" id="dvc-rB-jK0"/>
+                        <outlet property="saveButton" destination="cNX-RT-Jjp" id="e7G-Cc-bWs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q6k-dX-TMK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="D9C-Yt-VWt" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2180" y="883"/>
+            <point key="canvasLocation" x="398" y="1853"/>
+        </scene>
+        <!--Edit Collection-->
+        <scene sceneID="r2N-8R-RTs">
+            <objects>
+                <viewController storyboardIdentifier="EditCollectionViewController" id="lxl-ud-gFr" customClass="EditCollectionViewController" customModule="Collections" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2Dg-AZ-X1x">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Collection Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hMb-gU-Ya1">
+                                <rect key="frame" x="0.0" y="144" width="375" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Fzp-Pq-yCS" firstAttribute="trailing" secondItem="hMb-gU-Ya1" secondAttribute="trailing" id="58P-SW-SHm"/>
+                            <constraint firstItem="hMb-gU-Ya1" firstAttribute="leading" secondItem="Fzp-Pq-yCS" secondAttribute="leading" id="IRY-c4-WKE"/>
+                            <constraint firstItem="hMb-gU-Ya1" firstAttribute="top" secondItem="Fzp-Pq-yCS" secondAttribute="top" constant="100" id="T5t-un-XNr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Fzp-Pq-yCS"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Edit Collection" id="ifg-hQ-r9t">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Mk0-KZ-x5x">
+                            <connections>
+                                <segue destination="yaX-49-QLO" kind="unwind" identifier="unwindToCollectionItemsFromCancelSegue" unwindAction="unwindToCollectionItemsWithSegue:" id="iKm-pf-ZTP"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="h5R-kd-rfR">
+                            <connections>
+                                <action selector="didPressSaveButton:" destination="lxl-ud-gFr" id="eBz-bO-KLU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionNameTextField" destination="hMb-gU-Ya1" id="my9-4L-ULd"/>
+                        <segue destination="yaX-49-QLO" kind="unwind" identifier="unwindToCollectionItemsFromSaveSegue" unwindAction="unwindToCollectionItemsWithSegue:" id="lny-xu-blI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K7x-Ay-SuI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="yaX-49-QLO" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1252" y="1853"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VbG-jp-oYc">
@@ -194,58 +246,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Ql-0q-Un8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1153" y="-491"/>
-        </scene>
-        <!--Edit Collection-->
-        <scene sceneID="H9D-Uz-ENn">
-            <objects>
-                <viewController storyboardIdentifier="EditCollectionViewController" title="Edit Collection" id="etR-gd-yau" customClass="EditCollectionViewController" customModule="Collections" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="jnm-hX-QL1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Collection Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mzH-aA-lLW">
-                                <rect key="frame" x="16" y="108" width="343" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c3m-Vu-uku">
-                                <rect key="frame" x="138.5" y="206" width="98" height="30"/>
-                                <state key="normal" title="Save Changes"/>
-                                <connections>
-                                    <action selector="didTapSaveChangesButton:" destination="etR-gd-yau" eventType="touchUpInside" id="xtK-nl-dtl"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="c3m-Vu-uku" firstAttribute="centerX" secondItem="yue-3u-ZMO" secondAttribute="centerX" id="1lH-ue-IYu"/>
-                            <constraint firstItem="yue-3u-ZMO" firstAttribute="trailing" secondItem="mzH-aA-lLW" secondAttribute="trailing" constant="16" id="6TR-xQ-nZe"/>
-                            <constraint firstItem="mzH-aA-lLW" firstAttribute="top" secondItem="yue-3u-ZMO" secondAttribute="top" constant="64" id="ZWp-kC-KeU"/>
-                            <constraint firstItem="mzH-aA-lLW" firstAttribute="leading" secondItem="yue-3u-ZMO" secondAttribute="leading" constant="16" id="fkA-7G-ddw"/>
-                            <constraint firstItem="c3m-Vu-uku" firstAttribute="top" secondItem="mzH-aA-lLW" secondAttribute="bottom" constant="64" id="jHd-LF-VHi"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="yue-3u-ZMO"/>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Edit Collection" id="798-ul-Gja">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="lMe-nA-InN">
-                            <connections>
-                                <action selector="didTapDeleteButton:" destination="etR-gd-yau" id="Y1O-7K-uDP"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="collectionNameTextField" destination="mzH-aA-lLW" id="Ylc-IE-LUC"/>
-                        <segue destination="Inf-NC-peW" kind="unwind" identifier="unwindToMyCollectionsSegue" unwindAction="unwindToMyCollectionsWithSegue:" id="oPo-09-lEB"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="StQ-yJ-ljx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="Inf-NC-peW" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="170.40000000000001" y="-704.79760119940033"/>
+            <point key="canvasLocation" x="2082" y="501"/>
         </scene>
         <!--Items Collection-->
         <scene sceneID="fIG-3p-23V">
@@ -292,7 +293,7 @@
                                         <connections>
                                             <outlet property="nameLabel" destination="rBr-n9-jpK" id="Oik-bB-uww"/>
                                             <outlet property="thumbnailView" destination="7mO-Y0-jtB" id="UWb-6O-Y2n"/>
-                                            <segue destination="rGC-3M-Cwb" kind="show" identifier="ShowDetail" id="xec-jY-CY3"/>
+                                            <segue destination="rGC-3M-Cwb" kind="show" identifier="ShowItem" id="xec-jY-CY3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -308,16 +309,16 @@
                         <viewLayoutGuide key="safeArea" id="SsW-vQ-YeK"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Collection" id="mEe-X7-P9G">
+                    <navigationItem key="navigationItem" title="Items" id="mEe-X7-P9G">
                         <rightBarButtonItems>
                             <barButtonItem systemItem="add" id="7jV-MA-pCw">
                                 <connections>
                                     <segue destination="qhr-xY-7GJ" kind="presentation" identifier="AddItem" id="k7I-Oa-7J8"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="edit" id="SLt-h3-a88">
+                            <barButtonItem systemItem="compose" id="SLt-h3-a88">
                                 <connections>
-                                    <action selector="didTapEditButton:" destination="7Ja-sS-AW9" id="MD2-cN-v7h"/>
+                                    <segue destination="lxl-ud-gFr" kind="show" identifier="EditCollection" id="mxw-pv-gif"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -325,11 +326,13 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="tableView" destination="YsZ-pC-fas" id="BuL-4n-cdt"/>
+                        <segue destination="tWt-Vj-FKK" kind="unwind" identifier="unwindToCollectionItemsSegue" unwindAction="unwindToCollectionItemsWithSegue:" id="IJE-6U-WCg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8z6-CC-IPG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="tWt-Vj-FKK" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="171" y="21"/>
+            <point key="canvasLocation" x="1252" y="1044"/>
         </scene>
         <!--New Item-->
         <scene sceneID="Fke-yJ-u9P">
@@ -339,17 +342,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Voa-ds-0le">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Voa-ds-0le" userLabel="Photo Image View">
                                 <rect key="frame" x="16" y="116" width="100" height="100"/>
+                                <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="Qnb-kj-FRa"/>
                                     <constraint firstAttribute="width" constant="100" id="r5b-Dl-O6u"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yZ8-u0-RrL" userLabel="Add photo button">
+                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yZ8-u0-RrL" userLabel="Set Photo Button">
                                 <rect key="frame" x="16" y="116" width="100" height="100"/>
-                                <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Add photo"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
+                                <state key="normal" title="Set Photo">
+                                    <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="didPressSelectImageButton:" destination="rGC-3M-Cwb" eventType="touchUpInside" id="kOV-cl-1g1"/>
                                 </connections>
@@ -392,6 +398,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="New Item" id="Qdn-rq-XMf">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="HD0-wX-36z">
+                            <connections>
+                                <action selector="cancel:" destination="rGC-3M-Cwb" id="dsZ-m1-PkS"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="byk-vd-tSs">
                             <connections>
                                 <action selector="didPressSave:" destination="rGC-3M-Cwb" id="tiK-MG-WUf"/>
@@ -402,99 +413,37 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="addPhotoButton" destination="yZ8-u0-RrL" id="kVU-am-Jrp"/>
-                        <outlet property="descriptionTextField" destination="gL2-8E-30K" id="M6s-ih-NJh"/>
-                        <outlet property="itemImageView" destination="Voa-ds-0le" id="RPG-Gp-8pc"/>
-                        <outlet property="itemNameTextField" destination="s03-hH-xh7" id="RRC-Qy-OHx"/>
+                        <outlet property="extraTextField" destination="gL2-8E-30K" id="M6s-ih-NJh"/>
                         <outlet property="loadingIndicator" destination="ZwR-ce-9rJ" id="di8-qy-ktD"/>
+                        <outlet property="nameTextField" destination="s03-hH-xh7" id="RRC-Qy-OHx"/>
+                        <outlet property="photoImageView" destination="Voa-ds-0le" id="NDn-ax-QDC"/>
+                        <outlet property="saveButton" destination="byk-vd-tSs" id="OfU-qT-qi6"/>
                         <segue destination="kmP-NC-Mek" kind="unwind" identifier="unwindToItemsSegue" unwindAction="unwindToItemsWithSegue:" id="eAf-YP-74j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hr2-c5-HsM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="kmP-NC-Mek" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2110" y="19"/>
+            <point key="canvasLocation" x="2927" y="1044"/>
         </scene>
-        <!--Item-->
-        <scene sceneID="2j9-cH-LjQ">
+        <!--Navigation Controller-->
+        <scene sceneID="Y9O-KO-b3V">
             <objects>
-                <viewController storyboardIdentifier="ItemDetailViewController" title="Item" id="4P1-0f-1kx" customClass="ItemDetailViewController" customModule="Collections" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="vAF-Vb-4Ri">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xB9-30-JaN" userLabel="Title View" customClass="ItemTitleView" customModule="Collections" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="375" height="140"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k6C-yB-iog">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="140"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="140" id="MCU-ba-Ld6"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqT-fT-ZLe">
-                                        <rect key="frame" x="337" y="102" width="30" height="30"/>
-                                        <state key="normal" title="Edit">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didTapEditButton:" destination="4P1-0f-1kx" eventType="touchUpInside" id="rcw-dM-Y18"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="tqT-fT-ZLe" secondAttribute="bottom" constant="8" id="BWB-uE-D29"/>
-                                    <constraint firstItem="k6C-yB-iog" firstAttribute="top" secondItem="xB9-30-JaN" secondAttribute="top" id="Dx8-kA-EYH"/>
-                                    <constraint firstAttribute="trailing" secondItem="tqT-fT-ZLe" secondAttribute="trailing" constant="8" id="JeQ-gI-EZJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="k6C-yB-iog" secondAttribute="trailing" id="Rhj-P1-81H"/>
-                                    <constraint firstItem="tqT-fT-ZLe" firstAttribute="trailing" secondItem="xB9-30-JaN" secondAttribute="trailingMargin" id="agF-4P-c8V"/>
-                                    <constraint firstAttribute="bottom" secondItem="k6C-yB-iog" secondAttribute="bottom" id="dMz-vA-KN9"/>
-                                    <constraint firstItem="k6C-yB-iog" firstAttribute="leading" secondItem="xB9-30-JaN" secondAttribute="leading" id="qlv-fF-JP0"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="imageView" destination="k6C-yB-iog" id="S4l-QQ-WYN"/>
-                                </connections>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aUA-gz-pYP" userLabel="Content View">
-                                <rect key="frame" x="0.0" y="184" width="375" height="483"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MqD-CZ-eMl" userLabel="Description Label">
-                                        <rect key="frame" x="8" y="8" width="88" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstItem="MqD-CZ-eMl" firstAttribute="top" secondItem="aUA-gz-pYP" secondAttribute="top" constant="8" id="OAm-cO-mT8"/>
-                                    <constraint firstItem="MqD-CZ-eMl" firstAttribute="leading" secondItem="aUA-gz-pYP" secondAttribute="leading" constant="8" id="zSq-LI-MY2"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="Rab-Jv-STs" firstAttribute="bottom" secondItem="aUA-gz-pYP" secondAttribute="bottom" id="GSW-WC-BkG"/>
-                            <constraint firstItem="aUA-gz-pYP" firstAttribute="top" secondItem="xB9-30-JaN" secondAttribute="bottom" id="L0n-Rl-ao6"/>
-                            <constraint firstItem="xB9-30-JaN" firstAttribute="leading" secondItem="Rab-Jv-STs" secondAttribute="leading" id="czs-79-2WB"/>
-                            <constraint firstItem="Rab-Jv-STs" firstAttribute="trailing" secondItem="aUA-gz-pYP" secondAttribute="trailing" id="eTG-ka-ysm"/>
-                            <constraint firstItem="aUA-gz-pYP" firstAttribute="leading" secondItem="Rab-Jv-STs" secondAttribute="leading" id="hNd-vY-07m"/>
-                            <constraint firstItem="xB9-30-JaN" firstAttribute="trailing" secondItem="Rab-Jv-STs" secondAttribute="trailing" id="o5q-za-mUS"/>
-                            <constraint firstItem="xB9-30-JaN" firstAttribute="top" secondItem="Rab-Jv-STs" secondAttribute="top" id="pYC-wn-MYI"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Rab-Jv-STs"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Item" id="2Xy-zC-JVp" userLabel="Item"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0ps-P2-Tmn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Gxp-us-hy4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GpY-ZK-h4X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
                     <connections>
-                        <outlet property="detailLabel" destination="MqD-CZ-eMl" id="UJh-FZ-3BN"/>
-                        <outlet property="editButton" destination="tqT-fT-ZLe" id="dtT-q0-OhK"/>
-                        <outlet property="titleUIView" destination="xB9-30-JaN" id="xZ0-MY-wGC"/>
+                        <segue destination="nsy-WA-dWu" kind="relationship" relationship="rootViewController" id="KwG-ef-5DN"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8xD-KZ-mAT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D5W-gI-pbM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2814" y="20"/>
+            <point key="canvasLocation" x="-383" y="1853"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -3,55 +3,80 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 
-class ItemViewController: UIViewController, UINavigationControllerDelegate{
-        
+class ItemViewController: UIViewController, UINavigationControllerDelegate, UITextFieldDelegate {
+    
     // MARK: Properties
     
-    private var collection: Collection!
+    var collection: Collection!
     private var user: User!
-    private lazy var item: Item = {
-        return Item( name: "", extraText: "", photoURL: Item.randomPhotoURL())
-    }()
+    private lazy var item: Item = Item(name: "", extraText: "", photoURL: Item.randomPhotoURL())
+    var itemToEdit: Item?
     private var imagePicker = UIImagePickerController()
     private var downloadUrl: String?
     
     // MARK: Outlets
     
-    @IBOutlet private weak var itemNameTextField: UITextField!
-    @IBOutlet private weak var descriptionTextField: UITextField!
-    @IBOutlet private weak var itemImageView: UIImageView!
+    @IBOutlet private weak var nameTextField: UITextField!
+    @IBOutlet private weak var extraTextField: UITextField!
+    @IBOutlet private weak var photoImageView: UIImageView!
     @IBOutlet fileprivate weak var addPhotoButton: UIButton!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
-    
-    static func fromStoryboard(_ storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil),  collection: Collection)
-        -> ItemViewController {
-            let controller = storyboard.instantiateViewController(withIdentifier: "AddItemViewController")
-                as! ItemViewController
-            controller.collection = collection
-            return controller
-    }
+    @IBOutlet var saveButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         user = User(user: Auth.auth().currentUser!)
-        itemImageView.contentMode = .scaleAspectFill
-        itemImageView.clipsToBounds = true
         hideKeyboardWhenTappedAround()
+        
+        // Handle the text field’s user input through delegate callbacks.
+        nameTextField.delegate = self
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.clipsToBounds = true
+        
+        // Set up views if editing an existing Item.
+        if let item = itemToEdit {
+            self.item = item
+            navigationItem.title = item.name
+            nameTextField.text = item.name
+            extraTextField.text = item.extraText
+            photoImageView.sd_setImage(with: item.photoURL)
+        }
+        
+        // Enable the Save button only if the text field has a valid Item name.
+        updateSaveButtonState()
+        
+    }
+    
+    //MARK: UITextFieldDelegate
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Disable the Save button while editing.
+        saveButton.isEnabled = false
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Hide the keyboard.
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateSaveButtonState()
+        navigationItem.title = textField.text
     }
     
     func saveChanges() {
-        guard let detail = descriptionTextField.text,
-            let name = itemNameTextField.text, !name.isEmpty else {
+        guard let extraText = extraTextField.text,
+            let name = nameTextField.text, !name.isEmpty else {
                 self.presentInvalidDataAlert(message: "Name must be filled out.")
                 return
         }
         item.name = name
-        item.extraText = detail
+        item.extraText = extraText
         // if photo was changed, add the new url
         if let downloadUrl = downloadUrl {
-          item.photoURL = URL(string: downloadUrl)!
+            item.photoURL = URL(string: downloadUrl)!
         }
-        
         print("Going to save document data as \(item.documentData)")
         let ref = Firestore.firestore().items(forCollection: collection.documentID)
             .document(item.documentID)
@@ -66,24 +91,42 @@ class ItemViewController: UIViewController, UINavigationControllerDelegate{
     }
     
     // MARK: IBActions
-
+    
     @IBAction func didPressSave(_ sender: UIBarButtonItem) {
         print("did press save")
         saveChanges()
     }
     
     @IBAction func didPressSelectImageButton(_ sender: Any) {
-//        selectImage()
+        //        selectImage()
         showChooseSourceTypeAlertController()
     }
-
+    
+    // MARK: Navigation
+    
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
+        let isPresentingInAddItemMode = presentingViewController is UINavigationController
+        
+        if isPresentingInAddItemMode {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController{
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The ItemViewController is not inside a navigation controller.")
+        }
+    }
+    
     // MARK: Alert Messages
     
     func presentDidSaveAlert() {
         let message = "Item added successfully!"
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            self.performSegue(withIdentifier: "unwindToItemsSegue", sender: self)
+            //            self.performSegue(withIdentifier: "unwindToItemsSegue", sender: self)
+            self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
@@ -115,6 +158,14 @@ class ItemViewController: UIViewController, UINavigationControllerDelegate{
         }
     }
     
+    //MARK: Private Methods
+    
+    private func updateSaveButtonState() {
+        // Disable the Save button if the text field is empty.
+        let text = nameTextField.text ?? ""
+        saveButton.isEnabled = !text.isEmpty
+    }
+    
 }
 
 extension ItemViewController: UIImagePickerControllerDelegate {
@@ -143,74 +194,33 @@ extension ItemViewController: UIImagePickerControllerDelegate {
             present(imagePickerController, animated: true, completion: nil)
         }
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
+        
         if let editedImage = info[UIImagePickerController.InfoKey.editedImage]
             as? UIImage,
             let photoData = editedImage.jpegData(compressionQuality: 0.9)
-//            let photoData = editedImage.resizeImage(1000.0, opaque: false).jpegData(compressionQuality: 0.8)
+            //            let photoData = editedImage.resizeImage(1000.0, opaque: false).jpegData(compressionQuality: 0.8)
         {
-        self.itemImageView.image = editedImage
-        self.addPhotoButton.titleLabel?.text = ""
-        self.addPhotoButton.backgroundColor = UIColor.clear
-        saveImage(photoData: photoData)
-      }
-      self.dismiss(animated: true, completion: nil)
+            self.photoImageView.image = editedImage
+            self.addPhotoButton.titleLabel?.text = ""
+            self.addPhotoButton.backgroundColor = UIColor.clear
+            saveImage(photoData: photoData)
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
 }
 
 extension UIViewController {
-  func hideKeyboardWhenTappedAround() {
-    let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-    tap.cancelsTouchesInView = false
-    view.addGestureRecognizer(tap)
-  }
-
-  @objc func dismissKeyboard() {
-    view.endEditing(true)
-  }
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
-extension UIImage {
-    func resizeImage(_ dimension: CGFloat, opaque: Bool, contentMode: UIView.ContentMode = .scaleAspectFit) -> UIImage {
-           var width: CGFloat
-           var height: CGFloat
-           var newImage: UIImage
-
-           let size = self.size
-           let aspectRatio =  size.width/size.height
-
-           switch contentMode {
-               case .scaleAspectFit:
-                   if aspectRatio > 1 {                            // Landscape image
-                       width = dimension
-                       height = dimension / aspectRatio
-                   } else {                                        // Portrait image
-                       height = dimension
-                       width = dimension * aspectRatio
-                   }
-
-           default:
-               fatalError("UIIMage.resizeToFit(): FATAL: Unimplemented ContentMode")
-           }
-
-           if #available(iOS 10.0, *) {
-               let renderFormat = UIGraphicsImageRendererFormat.default()
-               renderFormat.opaque = opaque
-               let renderer = UIGraphicsImageRenderer(size: CGSize(width: width, height: height), format: renderFormat)
-               newImage = renderer.image {
-                   (context) in
-                   self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-               }
-           } else {
-               UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), opaque, 0)
-                   self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
-                   newImage = UIGraphicsGetImageFromCurrentImageContext()!
-               UIGraphicsEndImageContext()
-           }
-
-           return newImage
-       }
-   }

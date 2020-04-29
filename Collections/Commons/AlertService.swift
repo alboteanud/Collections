@@ -1,11 +1,3 @@
-//
-//  AlertService.swift
-//  UIImagePickerControllerExample
-//
-//  Created by Alex Nagy on 02/03/2019.
-//  Copyright © 2019 Alex Nagy. All rights reserved.
-//
-
 import UIKit
 
 class AlertService {

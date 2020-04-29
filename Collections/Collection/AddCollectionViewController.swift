@@ -23,6 +23,7 @@ class AddCollectionViewController: UIViewController {
     // MARK: Outlets
 
     @IBOutlet weak var collectionNameTextField: UITextField!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,17 +61,16 @@ class AddCollectionViewController: UIViewController {
     // MARK: IBActions
 
     @IBAction func didPressSaveButton(_ sender: Any) {
-        print("did press save")
         saveChanges()
     }
-    
+
     // MARK: Alert Messages
 
     func presentDidSaveAlert() {
       let message = "Collection added successfully!"
       let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
       let okAction = UIAlertAction(title: "OK", style: .default) { action in
-        self.performSegue(withIdentifier: "unwindToMyCollectionsSegue", sender: self)
+        self.performSegue(withIdentifier: "unwindToCollectionsSegue", sender: self)
       }
       alertController.addAction(okAction)
       self.present(alertController, animated: true, completion: nil)
