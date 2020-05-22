@@ -1,6 +1,6 @@
 import UIKit
 
-class ItemTableViewCell: UITableViewCell {
+class ItemCell: UITableViewCell {
     
     @IBOutlet private var thumbnailView: UIImageView!
 

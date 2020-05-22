@@ -51,7 +51,7 @@ import FirebaseFirestore
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ItemTableViewCell",
-                                             for: indexPath) as! ItemTableViewCell
+                                             for: indexPath) as! ItemCell
     let item = items[indexPath.row]
     cell.populate(item: item)
     return cell

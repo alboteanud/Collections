@@ -1,14 +1,13 @@
 import UIKit
 
-class CollectionTableViewCell: UITableViewCell {
+class CollectionCell: UITableViewCell {
     
 //    @IBOutlet private var thumbnailView: UIImageView!
-
-    @IBOutlet private var nameLabel: UILabel!
+//    @IBOutlet private var nameLabel: UILabel!
 
 
     func populate(collection: Collection) {
-      nameLabel.text = collection.name
+       textLabel!.text = collection.name
 //      thumbnailView.sd_setImage(with: collection.photoURL)
     }
 

@@ -16,6 +16,10 @@ extension Firestore {
         return self.collection("collections").document(collectionID)
        }
     
+    func collectionItems(forCollection collectionID: String) -> DocumentReference {
+           return self.collection("collectionItems").document(collectionID)
+          }
+    
     /// Returns a reference to the top-level items collection.
      var collectionItems: CollectionReference {
        return self.collection("collectionItems")
@@ -56,7 +60,7 @@ extension WriteBatch {
     
     /// Writes an item to the collection
     func add(item: Item, toCollection: String) {
-        let document = Firestore.firestore().collectionItems.document(toCollection).collection("items").document(item.documentID)
+        let document = Firestore.firestore().items(forCollection: toCollection).document(item.documentID)
         self.setData(item.documentData, forDocument: document)
     }
     

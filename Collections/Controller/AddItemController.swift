@@ -3,7 +3,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 
-class ItemViewController: UIViewController, UINavigationControllerDelegate, UITextFieldDelegate {
+class AddItemController: UIViewController, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // MARK: Properties
     
@@ -22,6 +22,8 @@ class ItemViewController: UIViewController, UINavigationControllerDelegate, UITe
     @IBOutlet fileprivate weak var addPhotoButton: UIButton!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet var saveButton: UIBarButtonItem!
+    
+     // todo enable a Sign In button if no user
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,8 +127,8 @@ class ItemViewController: UIViewController, UINavigationControllerDelegate, UITe
         let message = "Item added successfully!"
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            //            self.performSegue(withIdentifier: "unwindToItemsSegue", sender: self)
-            self.dismiss(animated: true, completion: nil)
+            self.performSegue(withIdentifier: "unwindToCollectionItems", sender: self)
+//            self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
@@ -168,7 +170,7 @@ class ItemViewController: UIViewController, UINavigationControllerDelegate, UITe
     
 }
 
-extension ItemViewController: UIImagePickerControllerDelegate {
+extension AddItemController: UIImagePickerControllerDelegate {
     
     func showChooseSourceTypeAlertController() {
         let photoLibraryAction = UIAlertAction(title: "Choose a Photo", style: .default) { (action) in

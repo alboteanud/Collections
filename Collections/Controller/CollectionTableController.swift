@@ -7,7 +7,7 @@ import SDWebImage
 let urlTermsOfService = URL(string: "https://sunshine-f15bf.firebaseapp.com/")!
 let urlPrivacyPolicy = URL(string: "https://sunshine-f15bf.firebaseapp.com/")!
 
-class CollectionTableViewController: UIViewController {
+class CollectionTableController: UITableViewController {
     
     /// The current user displayed by the controller. Setting this property has side effects.
     fileprivate var user: User? = nil {
@@ -33,13 +33,12 @@ class CollectionTableViewController: UIViewController {
     fileprivate var dataSource: CollectionTableViewDataSource? = nil
     private var authListener: AuthStateDidChangeListenerHandle? = nil
     
-    @IBOutlet private var tableView: UITableView!
+//    @IBOutlet private var tableView: UITableView!
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var usernameLabel: UILabel!
-    @IBOutlet private var settingsButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     // Not weak because we might remove it
-    @IBOutlet var signOutButton: UIBarButtonItem!
+    @IBOutlet var signOutButton: UIButton!
     @IBOutlet var addCollectionButton: UIBarButtonItem!
     
     override func viewDidLoad() {
@@ -54,7 +53,7 @@ class CollectionTableViewController: UIViewController {
         Auth.auth().addStateDidChangeListener { (auth, newUser) in
             self.setUser(firebaseUser: newUser)
         }
-        //              tableView.delegate = self
+                      tableView.delegate = self
     }
     
     @IBAction func didTapSignInButton(_ sender: Any) {
@@ -87,15 +86,14 @@ class CollectionTableViewController: UIViewController {
         if let user = user {
             profileImageView.sd_setImage(with: user.photoURL)
             usernameLabel.text = user.name
-            settingsButton.isHidden = false
             signInButton.isHidden = true
+            signOutButton.isHidden = false
             addCollectionButton.isEnabled = true
-            self.navigationItem.leftBarButtonItem = signOutButton
         } else {
             profileImageView.image = nil
             usernameLabel.text = "Sign in, why don'cha?"
-            settingsButton.isHidden = true
             signInButton.isHidden = false
+            signOutButton.isHidden = true
             addCollectionButton.isEnabled = false
             self.navigationItem.leftBarButtonItem = nil
         }
@@ -160,11 +158,11 @@ class CollectionTableViewController: UIViewController {
             print("Adding a new collection.")
             
         case "ShowCollection":
-            guard let itemTableViewController = segue.destination as? ItemTableViewController else {
+            guard let itemTableViewController = segue.destination as? ItemTableController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedCollectionCell = sender as? CollectionTableViewCell else {
+            guard let selectedCollectionCell = sender as? CollectionCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             
@@ -181,7 +179,7 @@ class CollectionTableViewController: UIViewController {
     }
     
     @IBAction func unwindToCollections(_ unwindSegue: UIStoryboardSegue) {
-        let sourceViewController = unwindSegue.source
+//        let sourceViewController = unwindSegue.source
         // Use data from the view controller which initiated the unwind segue
     }
     

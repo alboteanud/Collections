@@ -3,11 +3,12 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /{document=**} {
+    // match /{document=**} {
       // This line means that anybody can read anything in your database. This might
       // not be what you want in a production app.
-      allow read;
-    }
+      // allow read;
+      // allow write;
+    // }
 
     match /reviews/{reviewID} {
       allow update: if (request.auth.uid == resource.data.userInfo.userID &&
@@ -28,7 +29,7 @@ service cloud.firestore {
                restData.name is string &&
                restData.name.size() > 3 && restData.name.size() < 64 &&
                restData.photoURL is string &&
-               restData.price is number && 
+               restData.price is number &&    
                restData.price >= 1 && restData.price <= 3 &&
                restData.reviewCount is number &&
                restData.reviewCount >= 0;
@@ -45,5 +46,42 @@ service cloud.firestore {
       allow update: if request.auth.uid == userID;
       allow create: if request.auth.uid == userID;
     }
+
+    match /collections/{collectionID} {
+      allow read: if request.auth.uid == resource.data.ownerID;
+      allow write: if request.auth.uid == request.resource.data.ownerID;
+    }
+
+    match /collectionItems/{collectionID} {
+      allow update: if request.auth.uid == resource.data.authorID;
+      allow create: if request.auth.uid == request.resource.data.authorID;
+      allow read: if request.auth.uid == resource.data.authorID;   
+    }
+
+    match /collectionItems/{collectionID}/users/{userID} {
+      function isAuthor(){
+        let authorID = get(/databases/$(database)/documents/collectionItems/$(collectionID)).data.authorID;  
+        return request.auth.uid == authorID;
+      }
+      allow create: if isAuthor() 
+      // || (request.auth.uid == userID);
+    }
+
+    match /collectionItems/{collectionID}/items/{itemID} { 
+
+      function isReader(){
+        let role = get(/databases/$(database)/documents/collectionItems/$(collectionID)/users/$(request.auth.uid)).data.role;   
+        return role == "writer" || role == "reader"
+      }
+
+      function isWriter(){
+        let role = get(/databases/$(database)/documents/collectionItems/$(collectionID)/users/$(request.auth.uid)).data.role;   
+        return role == "writer"
+      }
+
+      allow read: if isReader()
+      allow write: if isWriter();  
+    }
   }
 }
+

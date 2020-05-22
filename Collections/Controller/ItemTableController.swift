@@ -4,7 +4,7 @@ import FirebaseUI
 import FirebaseFirestore
 import SDWebImage
 
-class ItemTableViewController: UIViewController, UITableViewDelegate{
+class ItemTableController: UIViewController, UITableViewDelegate{
     
     // MARK: Properties
     
@@ -49,12 +49,13 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
 //        self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    @IBAction func unwindToCollectionItemsWithSegue (_ unwindSegue: UIStoryboardSegue) {
-        let saveSegueID = EditCollectionViewController.GlobalVariables.saveSegueID
+    @IBAction func unwindToItemsWithSegue (_ unwindSegue: UIStoryboardSegue) {
+        let saveSegueID = EditCollectionController.GlobalVariables.saveSegueID
         
-        // check if we're comming back from EditCollectionViewController. Just edited the collection.
+        // check if we're comming back from EditCollectionViewController.
+        // !! We just edited the collection.
         if unwindSegue.identifier == saveSegueID {
-           let sourceViewController = unwindSegue.source as? EditCollectionViewController
+           let sourceViewController = unwindSegue.source as? EditCollectionController
             if let modifiedCollection = sourceViewController?.collection {
                 collection = modifiedCollection
                 self.title = collection.name
@@ -96,17 +97,17 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
         case "AddItem":
             print("Adding a new collection.")
             let destination = segue.destination as? UINavigationController
-            guard let itemViewController = destination?.topViewController as? ItemViewController else {
+            guard let itemViewController = destination?.topViewController as? AddItemController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             itemViewController.collection = collection
             
         case "ShowItem":
-            guard let itemViewController = segue.destination as? ItemViewController else {
+            guard let itemViewController = segue.destination as? AddItemController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedItemCell = sender as? ItemTableViewCell else {
+            guard let selectedItemCell = sender as? ItemCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             
@@ -119,7 +120,7 @@ class ItemTableViewController: UIViewController, UITableViewDelegate{
             itemViewController.collection = collection
             
         case "EditCollection":
-            guard let collectionViewController = segue.destination as? EditCollectionViewController else {
+            guard let collectionViewController = segue.destination as? EditCollectionController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             collectionViewController.collection = collection
