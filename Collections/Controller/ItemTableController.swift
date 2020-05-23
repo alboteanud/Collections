@@ -1,10 +1,10 @@
 import UIKit
 import FirebaseAuth
-import FirebaseUI
+//import FirebaseUI
 import FirebaseFirestore
 import SDWebImage
 
-class ItemTableController: UIViewController, UITableViewDelegate{
+class ItemTableController: UIViewController, UITableViewDelegate {
     
     // MARK: Properties
     
@@ -36,6 +36,7 @@ class ItemTableController: UIViewController, UITableViewDelegate{
         tableView.dataSource = dataSource
         dataSource.startUpdates()
         tableView.delegate = self
+        navigationItem.setHidesBackButton(true, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,11 +44,15 @@ class ItemTableController: UIViewController, UITableViewDelegate{
         dataSource.stopUpdates()
     }
     
-    
     @IBAction func didTapAddItemButton(_ sender: Any) {
 //        let controller = ItemViewController.fromStoryboard(collection: collection)
 //        self.navigationController?.pushViewController(controller, animated: true)
     }
+    
+    @IBAction func didTapCollectionsButton(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     
     @IBAction func unwindToItemsWithSegue (_ unwindSegue: UIStoryboardSegue) {
         let saveSegueID = EditCollectionController.GlobalVariables.saveSegueID
@@ -108,7 +113,7 @@ class ItemTableController: UIViewController, UITableViewDelegate{
             }
             
             guard let selectedItemCell = sender as? ItemCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             
             guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
@@ -126,7 +131,7 @@ class ItemTableController: UIViewController, UITableViewDelegate{
             collectionViewController.collection = collection
             
         default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
 

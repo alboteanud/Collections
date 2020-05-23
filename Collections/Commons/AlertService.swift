@@ -18,7 +18,9 @@ class AlertService {
 }
 
 extension UIApplication {
-    class func getTopMostViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    class func getTopMostViewController(base: UIViewController? =
+        // UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return getTopMostViewController(base: nav.visibleViewController)
         }

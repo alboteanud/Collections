@@ -52,7 +52,7 @@ class CollectionTableController: UITableViewController {
         Auth.auth().addStateDidChangeListener { (auth, newUser) in
             self.setUser(firebaseUser: newUser)
         }
-                      tableView.delegate = self
+//                      tableView.delegate = self
     }
     
     @IBAction func didTapSignInButton(_ sender: Any) {
@@ -74,7 +74,8 @@ class CollectionTableController: UITableViewController {
         if let firebaseUser = firebaseUser {
             let user = User(user: firebaseUser)
             self.user = user
-            Firestore.firestore().users.document(user.userID).setData(user.documentData) { error in if let error = error {  print("Error writing user to Firestore: \(error)")}
+            Firestore.firestore().users.document(user.userID).setData(user.documentData) { error in if let error = error {
+                print("Error writing user to Firestore: \(error)")}
             }
         } else {
             user = nil
@@ -109,7 +110,7 @@ class CollectionTableController: UITableViewController {
                 self.tableView.backgroundView = self.tableBackgroundLabel
             }
         }
-        dataSource?.sectionTitle = "My Collections"
+//        dataSource?.sectionTitle = "My Collections"
         dataSource?.startUpdates()
         tableView.dataSource = dataSource
     }
@@ -142,8 +143,6 @@ class CollectionTableController: UITableViewController {
         }
     }
     
-    //    @IBAction func unwindToMyCollections(segue: UIStoryboardSegue) {}
-    
     //MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -162,7 +161,7 @@ class CollectionTableController: UITableViewController {
             }
             
             guard let selectedCollectionCell = sender as? CollectionCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             
             guard let indexPath = tableView.indexPath(for: selectedCollectionCell) else {
@@ -173,7 +172,7 @@ class CollectionTableController: UITableViewController {
             itemTableViewController.collection = selectedCollection
             
         default:
-            fatalError("Unexpected Segue Identifier; \(segue.identifier)")
+            fatalError("Unexpected Segue Identifier; \(String(describing: segue.identifier))")
         }
     }
     
