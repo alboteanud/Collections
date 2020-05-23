@@ -37,8 +37,7 @@ class CollectionTableController: UITableViewController {
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var usernameLabel: UILabel!
     @IBOutlet weak var signInButton: UIButton!
-    // Not weak because we might remove it
-    @IBOutlet var signOutButton: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
     @IBOutlet var addCollectionButton: UIBarButtonItem!
     
     override func viewDidLoad() {
@@ -90,7 +89,7 @@ class CollectionTableController: UITableViewController {
             signOutButton.isHidden = false
             addCollectionButton.isEnabled = true
         } else {
-            profileImageView.image = nil
+            profileImageView.image = UIImage(named: "placeholder")
             usernameLabel.text = "Sign in, why don'cha?"
             signInButton.isHidden = false
             signOutButton.isHidden = true

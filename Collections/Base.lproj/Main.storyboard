@@ -140,48 +140,50 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="U9O-Lw-xzx">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                             <subviews>
-                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="L4m-rp-tNc">
-                                    <rect key="frame" x="8" y="12" width="50" height="50"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQ7-PZ-PbZ">
-                                    <rect key="frame" x="66" y="30" width="45" height="20"/>
+                                    <rect key="frame" x="80" y="26" width="45" height="20"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6X4-Hk-1cj">
-                                    <rect key="frame" x="359" y="25" width="47" height="30"/>
+                                    <rect key="frame" x="359" y="21" width="47" height="30"/>
                                     <state key="normal" title="Sign In"/>
                                     <connections>
                                         <action selector="didTapSignInButton:" destination="6a1-7k-XdT" eventType="touchUpInside" id="CUJ-ln-NYF"/>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F7L-rS-fhQ">
-                                    <rect key="frame" x="346" y="25" width="60" height="30"/>
+                                    <rect key="frame" x="346" y="21" width="60" height="30"/>
                                     <state key="normal" title="Sign Out"/>
                                     <connections>
                                         <action selector="didTapSignOutButton:" destination="6a1-7k-XdT" eventType="touchUpInside" id="Is1-H7-BN2"/>
                                     </connections>
                                 </button>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" id="L4m-rp-tNc">
+                                    <rect key="frame" x="8" y="8" width="56" height="56"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
                                 <constraint firstItem="bQ7-PZ-PbZ" firstAttribute="centerY" secondItem="U9O-Lw-xzx" secondAttribute="centerY" id="91u-sR-oaJ"/>
                                 <constraint firstItem="6X4-Hk-1cj" firstAttribute="centerY" secondItem="U9O-Lw-xzx" secondAttribute="centerY" id="PGf-On-b9s"/>
+                                <constraint firstItem="6X4-Hk-1cj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bQ7-PZ-PbZ" secondAttribute="trailing" constant="8" id="aBl-3D-7PK"/>
                                 <constraint firstItem="F7L-rS-fhQ" firstAttribute="trailing" secondItem="U9O-Lw-xzx" secondAttribute="trailingMargin" id="dqh-b9-KmZ"/>
-                                <constraint firstItem="bQ7-PZ-PbZ" firstAttribute="leading" secondItem="L4m-rp-tNc" secondAttribute="trailing" constant="8" id="r0p-Sy-PAR"/>
+                                <constraint firstItem="F7L-rS-fhQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bQ7-PZ-PbZ" secondAttribute="trailing" constant="8" id="fnb-cl-R2I"/>
+                                <constraint firstItem="bQ7-PZ-PbZ" firstAttribute="leading" secondItem="L4m-rp-tNc" secondAttribute="trailing" constant="16" id="r0p-Sy-PAR"/>
                                 <constraint firstAttribute="trailingMargin" secondItem="6X4-Hk-1cj" secondAttribute="trailing" id="sWe-Z7-GNl"/>
                                 <constraint firstItem="F7L-rS-fhQ" firstAttribute="centerY" secondItem="U9O-Lw-xzx" secondAttribute="centerY" id="tH4-LY-CXd"/>
                             </constraints>
+                            <viewLayoutGuide key="safeArea" id="VBD-WS-cGb"/>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="CollectionCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CollectionCell" id="jLX-kS-YdZ" customClass="CollectionCell" customModule="Collections" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="108" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="100" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jLX-kS-YdZ" id="s9Q-a5-peS">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
