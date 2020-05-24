@@ -17,7 +17,7 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
     // MARK: Outlets
     
     @IBOutlet private weak var nameTextField: UITextField!
-    @IBOutlet private weak var extraTextField: UITextField!
+    @IBOutlet private weak var detailTextView: UITextView!
     @IBOutlet private weak var photoImageView: UIImageView!
     @IBOutlet fileprivate weak var addPhotoButton: UIButton!
     @IBOutlet var loadingIndicator: UIActivityIndicatorView!
@@ -38,10 +38,12 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
         // Set up views if editing an existing Item.
         if let item = itemToEdit {
             self.item = item
-            navigationItem.title = item.name
+            navigationItem.title = "Edit"
             nameTextField.text = item.name
-            extraTextField.text = item.extraText
+            detailTextView.text = item.extraText
             photoImageView.sd_setImage(with: item.photoURL)
+        } else {
+             navigationItem.title = "Add"
         }
         
         // Enable the Save button only if the text field has a valid Item name.
@@ -53,7 +55,7 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         // Disable the Save button while editing.
-        saveButton.isEnabled = false
+//        saveButton.isEnabled = false
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -64,11 +66,11 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateSaveButtonState()
-        navigationItem.title = textField.text
+//        navigationItem.title = textField.text
     }
     
     func saveChanges() {
-        guard let extraText = extraTextField.text,
+        guard let extraText = detailTextView.text,
             let name = nameTextField.text, !name.isEmpty else {
                 self.presentInvalidDataAlert(message: "Name must be filled out.")
                 return
@@ -89,13 +91,13 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
                 print("Write confirmed by the server")
             }
         }
-        self.presentDidSaveAlert()
+//        self.presentDidSaveAlert()
+        dismissViewController()
     }
     
     // MARK: IBActions
     
     @IBAction func didPressSave(_ sender: UIBarButtonItem) {
-        print("did press save")
         saveChanges()
     }
     
@@ -107,18 +109,22 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
     // MARK: Navigation
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
+        dismissViewController()
+    }
+    
+    func dismissViewController() {
         // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
-        let isPresentingInAddItemMode = presentingViewController is UINavigationController
-        
-        if isPresentingInAddItemMode {
-            dismiss(animated: true, completion: nil)
-        }
-        else if let owningNavigationController = navigationController{
-            owningNavigationController.popViewController(animated: true)
-        }
-        else {
-            fatalError("The ItemViewController is not inside a navigation controller.")
-        }
+             let isPresentingInAddItemMode = presentingViewController is UINavigationController
+             
+             if isPresentingInAddItemMode {
+                 dismiss(animated: true, completion: nil)
+             }
+             else if let owningNavigationController = navigationController{
+                 owningNavigationController.popViewController(animated: true)
+             }
+             else {
+                 fatalError("The ItemViewController is not inside a navigation controller.")
+             }
     }
     
     // MARK: Alert Messages
@@ -127,8 +133,8 @@ class AddItemController: UIViewController, UINavigationControllerDelegate, UITex
         let message = "Item added successfully!"
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            self.performSegue(withIdentifier: "unwindToCollectionItems", sender: self)
-//            self.dismiss(animated: true, completion: nil)
+//            self.performSegue(withIdentifier: "unwindToCollectionItems", sender: self)
+            self.dismissViewController()
         }
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
