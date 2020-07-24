@@ -7,7 +7,13 @@ export const onDeleteCollection = functions.firestore.document('collections/{col
   .onDelete((snap, context) => {
       const {collectionID} = context.params
       const db = app.firestore();
-      return deleteAllItemsInCollection(db, collectionID, 10)
+      const promise1 =  deleteAllItemsInCollection(db, collectionID, 10)
+      const promise2 = deleteAllUsersInCollection(db, collectionID, 10)
+      const promise3 = deleteDocCollection(db, collectionID)
+
+      return Promise.all([promise1, promise2, promise3]).then((values) => {
+        console.log(values);
+      });
     }
   )
 
@@ -17,6 +23,23 @@ async function deleteAllItemsInCollection(db: Firestore, collectionID: string, b
 
   return new Promise((resolve, reject) => {
     deleteQueryBatch(db, query, resolve, reject);
+  });
+}
+
+async function deleteAllUsersInCollection(db: Firestore, collectionID: string, batchSize: 10) {
+  const collectionRef = db.collection(`collectionItems/${collectionID}/users`);
+  const query = collectionRef.orderBy('__name__').limit(batchSize);
+
+  return new Promise((resolve, reject) => {
+    deleteQueryBatch(db, query, resolve, reject);
+  });
+}
+
+async function deleteDocCollection(db: Firestore, collectionID: string) {
+  const deleteDoc = db.collection(`collectionItems`).doc(collectionID).delete();
+
+  return deleteDoc.then(res => {
+    console.log('Delete: ', res);
   });
 }
 

@@ -4,12 +4,8 @@ import FirebaseUI
 import FirebaseFirestore
 import SDWebImage
 
-let urlTermsOfService = URL(string: "https://sunshine-f15bf.firebaseapp.com/")!
-let urlPrivacyPolicy = URL(string: "https://sunshine-f15bf.firebaseapp.com/")!
-
-class CollectionTableController: UITableViewController {
+class CollectionTableController: UIViewController, UITableViewDelegate {
     
-    /// The current user displayed by the controller. Setting this property has side effects.
     fileprivate var user: User? = nil {
         didSet {
             populate(user: user)
@@ -30,20 +26,21 @@ class CollectionTableController: UITableViewController {
         return label
     }()
     
-    fileprivate var dataSource: CollectionTableViewDataSource? = nil
+    fileprivate var dataSource: CollectionTableDataSource? = nil
     private var authListener: AuthStateDidChangeListenerHandle? = nil
     
-//    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var tableView: UITableView!
     @IBOutlet private var profileImageView: UIImageView!
     @IBOutlet private var usernameLabel: UILabel!
-    @IBOutlet weak var signInButton: UIButton!
-    @IBOutlet weak var signOutButton: UIButton!
-    @IBOutlet var addCollectionButton: UIBarButtonItem!
+    @IBOutlet private weak var signInButton: UIButton!
+    @IBOutlet private weak var signOutButton: UIButton!
+    @IBOutlet private var addCollectionButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableBackgroundLabel.text = "There aren't any collections here."
         tableView.backgroundView = tableBackgroundLabel
+        tableView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,21 +49,25 @@ class CollectionTableController: UITableViewController {
         Auth.auth().addStateDidChangeListener { (auth, newUser) in
             self.setUser(firebaseUser: newUser)
         }
-//                      tableView.delegate = self
-    }
-    
-    @IBAction func didTapSignInButton(_ sender: Any) {
-        presentLoginController()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let listener = authListener {
             Auth.auth().removeStateDidChangeListener(listener)
+        }
+        dataSource?.stopUpdates()
+    }
+    
+    @IBAction func didTapSignInButton(_ sender: Any) {
+        presentLoginController()
+    }
+    
+    @IBAction private func didTapSignOutButton(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+        } catch let error {
+            print("Error signing out: \(error)")
         }
     }
     
@@ -88,20 +89,17 @@ class CollectionTableController: UITableViewController {
             usernameLabel.text = user.name
             signInButton.isHidden = true
             signOutButton.isHidden = false
-            addCollectionButton.isEnabled = true
         } else {
             profileImageView.image = UIImage(named: "placeholder")
             usernameLabel.text = "Sign in, why don'cha?"
             signInButton.isHidden = false
             signOutButton.isHidden = true
-            addCollectionButton.isEnabled = false
-            self.navigationItem.leftBarButtonItem = nil
         }
     }
     
     fileprivate func populateCollections(forUser user: User) {
         let query = Firestore.firestore().collections.whereField("ownerID", isEqualTo: user.userID)
-        dataSource = CollectionTableViewDataSource(query: query) { [unowned self] (changes) in
+        dataSource = CollectionTableDataSource(query: query) { [unowned self] (changes) in
             self.tableView.reloadData()
             guard let dataSource = self.dataSource else { return }
             if dataSource.count > 0 {
@@ -110,42 +108,15 @@ class CollectionTableController: UITableViewController {
                 self.tableView.backgroundView = self.tableBackgroundLabel
             }
         }
-//        dataSource?.sectionTitle = "My Collections"
+        //        dataSource?.sectionTitle = "My Collections"
         dataSource?.startUpdates()
         tableView.dataSource = dataSource
     }
     
-    fileprivate func presentLoginController() {
-        guard let authUI = FUIAuth.defaultAuthUI() else { return }
-        guard authUI.auth?.currentUser == nil else {
-            print("Attempted to present auth flow while already logged in")
-            return
-        }
-        
-        FUIAuth.defaultAuthUI()?.tosurl = urlTermsOfService
-        FUIAuth.defaultAuthUI()?.privacyPolicyURL = urlPrivacyPolicy
-        
-        authUI.providers = [
-            FUIGoogleAuth(),
-            FUIEmailAuth(),
-            FUIOAuth.appleAuthProvider()
-        ]
-        
-        let controller = authUI.authViewController()
-        self.present(controller, animated: true, completion: nil)
+    deinit {
+        dataSource?.stopUpdates()
     }
     
-    @IBAction private func didTapSignOutButton(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-            print("Error signing out: \(error)")
-        }
-    }
-    
-    //MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         super.prepare(for: segue, sender: sender)
@@ -176,22 +147,20 @@ class CollectionTableController: UITableViewController {
         }
     }
     
-    @IBAction func unwindToCollections(_ unwindSegue: UIStoryboardSegue) {
-//        let sourceViewController = unwindSegue.source
-        // Use data from the view controller which initiated the unwind segue
+//    @IBAction func unwindToCollections(_ unwindSegue: UIStoryboardSegue) { }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "Edit", handler: {action,view,completionHandler in
+            guard let collection = self.dataSource?[indexPath.row] else {return}
+            let controller = AddCollectionController.fromStoryboard(collection: collection)
+            self.navigationController?.pushViewController(controller, animated: true)
+            completionHandler(true)
+        })
+        action.backgroundColor = .orange
+        let config = UISwipeActionsConfiguration(actions: [action])
+        return config
     }
     
 }
 
-// MARK: - UITableViewDelegate
-
-//   extension CollectionTableViewController: UITableViewDelegate {
-//
-//     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//       tableView.deselectRow(at: indexPath, animated: true)
-////        guard let collection = dataSource?[indexPath.row] else { return }
-////       let controller = ItemTableViewController.fromStoryboard(collection: collection)
-////       self.navigationController?.pushViewController(controller, animated: true)
-//     }
-//}
 

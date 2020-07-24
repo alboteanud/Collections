@@ -2,98 +2,180 @@ import UIKit
 import Firebase
 import FirebaseAuth
 
-class AddCollectionController: UIViewController, UITextFieldDelegate {
+class AddCollectionController: UIViewController {
     
-    private var user: User? = nil
-    private lazy var collection: Collection = { return Collection(ownerID: user!.userID, name: "") }()
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var saveButton: UIBarButtonItem!
+    fileprivate var user: User? = nil {
+        didSet {
+            populate(user: user) }
+    }
     
-    // todo enable a Sign In button if no user
+    var collection: Collection? = nil
+    private var mode = ControllerMode.add
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet private var profileImageView: UIImageView!
+    @IBOutlet private var usernameLabel: UILabel!
+    @IBOutlet weak var signInButton: UIButton!
+    @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet weak var signInView: UIView!
+    @IBOutlet var toolbar: UIToolbar!
+    var didChangeCollection: ((_ collection: Collection?) -> Void)?
+    
+    static func fromStoryboard(_ storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil),
+                               collection: Collection) -> AddCollectionController {
+        let controller = storyboard.instantiateViewController(withIdentifier: "AddCollectionController") as! AddCollectionController
+        controller.collection = collection
+        return controller
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // we assume the user is signedIn
-        user = User(user: Auth.auth().currentUser!)
-        nameTextField.delegate = self
-        
-        // Enable the Save button only if the text field has a valid Collection name.
-        updateSaveButtonState()
+        if let currentUser = Auth.auth().currentUser {
+            user = User(user: currentUser)
+        }
+        if let collection = collection {
+            mode = ControllerMode.edit
+            showEditUI(collection: collection)
+        }
     }
     
-    //MARK: UITextFieldDelegate
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // Disable the Save button while editing.
-        saveButton.isEnabled = false
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUser(firebaseUser: Auth.auth().currentUser)
+        Auth.auth().addStateDidChangeListener { (auth, newUser) in
+            self.setUser(firebaseUser: newUser)
+        }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // Hide the keyboard.
-        textField.resignFirstResponder()
-        return true
+    // MARK: IBActions
+    
+    @IBAction func didTapDeleteButton(_ sender: Any) {
+        showDeleteWarning (message: "Are you sure you want to delete this collection ?") { shouldDelete in
+            if shouldDelete {
+                self.deleteCollection()
+                self.didChangeCollection?(nil)
+                self.dismissViewController()
+            }
+        }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        updateSaveButtonState()
+    @IBAction func didTapCancelButton(_ sender: Any) {
+        self.dismissViewController()
     }
     
-    // MARK: Navigation
+    @IBAction func didTapSignInButton(_ sender: Any) {
+        presentLoginController()
+    }
     
-    // This method lets you configure a view controller before it's presented.
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        super.prepare(for: segue, sender: sender)
-        
-        // Configure the destination view controller only when the save button is pressed.
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            print("The save button was not pressed, cancelling")
+    @IBAction private func didTapSignOutButton(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+        } catch let error {
+            print("Error signing out: \(error)")
+        }
+    }
+    
+    @IBAction func didTapSaveButton() {
+        if (user == nil){
+            showSimpleAlert(title: "Sign in required", message: "You must be signed in to save a collection.")
             return
         }
-        saveChanges()
-        
+        guard let collectionName = textField.text, !collectionName.isEmpty else {
+            showSimpleAlert(title: "Invalid input", message: "Collection name must be filled out.")
+            return
+        }
+        saveChanges(collectionName: collectionName)
+        self.dismissViewController()
     }
     
     //MARK: Private Methods
     
-    private func updateSaveButtonState() {
-        // Disable the Save button if the text field is empty.
-        let text = nameTextField.text ?? ""
-        saveButton.isEnabled = user != nil && !text.isBlankOrEmpty()
+    fileprivate func setUser(firebaseUser: FirebaseAuth.UserInfo?) {
+        if let firebaseUser = firebaseUser {
+            let user = User(user: firebaseUser)
+            self.user = user
+            Firestore.firestore().users.document(user.userID).setData(user.documentData) { error in if let error = error {
+                print("Error writing user to Firestore: \(error)")}
+            }
+        } else {
+            user = nil
+        }
     }
     
-    func saveChanges() {
-        if (user == nil){
-            return
-        }
-        collection.name = nameTextField.text ?? "_"
-        print("Going to save document data as \(collection.documentData)")
+    func saveChanges(collectionName: String){
+        var newCollection = collection ?? Collection(ownerID: user!.userID, name: "")
+        
+        newCollection.name = collectionName
+        print("Going to save document data as \(newCollection.documentData)")
         let db = Firestore.firestore()
         let batch = db.batch()
         
-        let refCollectionDoc = db.aCollection(forCollection: collection.documentID)
-        refCollectionDoc.setData(collection.documentData)
+        let refCollectionDoc = db.aCollection(forCollection: newCollection.documentID)
+        refCollectionDoc.setData(newCollection.documentData)
         
-        // todo - use cloud functions to do this
-        let refCollectionItems = db.collectionItems(forCollection: collection.documentID)
+        let refCollectionItems = db.collectionItems(forCollection: newCollection.documentID)
         batch.setData(
             ["author": user!.name,
              "authorID": user!.userID,
              "createDate": Timestamp(date: Date())
         ], forDocument: refCollectionItems)
         
-        let refCollectionItemsUsers = db.collectionItems(forCollection: collection.documentID).collection("users").document(user!.userID)
-        refCollectionItemsUsers.setData(["role" : "admin"])
+        if mode == ControllerMode.add {
+            let refCollectionItemsUsers = db.collectionItems(forCollection: newCollection.documentID).collection("users").document(user!.userID)
+            refCollectionItemsUsers.setData(["role" : "admin"])
+        }
         
         batch.commit(){ error in
             if let error = error {
                 print("Error writing batch: \(error)")
             } else {
                 print("Write confirmed by the server")
+                //                self.presentDidSaveAlert()
+            }
+        }
+        didChangeCollection?(newCollection)
+    }
+    
+    fileprivate func populate(user: User?) {
+        if mode == ControllerMode.edit { return }
+        
+        if let user = user {
+            profileImageView.sd_setImage(with: user.photoURL)
+            usernameLabel.text = user.name
+            signInButton.isHidden = true
+            signOutButton.isHidden = false
+        } else {
+            profileImageView.image = UIImage(named: "placeholder")
+            usernameLabel.text = "Sign in, why don'cha?"
+            signInButton.isHidden = false
+            signOutButton.isHidden = true
+        }
+    }
+    
+    func deleteCollection(){
+        guard let collectionID = collection?.documentID else { return }
+        Firestore.firestore().aCollection(forCollection: collectionID).delete() { error in
+            if let error = error {
+                print("Error deleting document: \(error)")
+            } else {
+                print("Delete confirmed by the server")
             }
         }
     }
     
+    func showEditUI(collection: Collection){
+        self.title = "Edit collection"
+        textField.text = collection.name
+        signInView.isHidden = true
+        toolbar.isHidden = false
+    }
+    
 }
+
+enum ControllerMode {
+    case add
+    case edit
+}
+
+
 
 

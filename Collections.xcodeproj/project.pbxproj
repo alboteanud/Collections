@@ -16,21 +16,31 @@
 		A454D8BE244C6929003EFF28 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A454D8BD244C6929003EFF28 /* GoogleService-Info.plist */; };
 		A454D8E0244C6AF4003EFF28 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A454D8DF244C6AF4003EFF28 /* SceneDelegate.swift */; };
 		A4665BB424596EF800951DC6 /* AddCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4665BB224596EF800951DC6 /* AddCollectionController.swift */; };
-		A4665BB524596EF800951DC6 /* EditCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4665BB324596EF800951DC6 /* EditCollectionController.swift */; };
-		A46C11CC244DA89100E78174 /* CollectionTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CB244DA89100E78174 /* CollectionTableViewDataSource.swift */; };
+		A46C11CC244DA89100E78174 /* CollectionTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CB244DA89100E78174 /* CollectionTableDataSource.swift */; };
 		A46C11D0244DAA9D00E78174 /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CD244DAA9D00E78174 /* Collection.swift */; };
 		A46C11D1244DAA9D00E78174 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CE244DAA9D00E78174 /* Item.swift */; };
 		A46C11D2244DAA9D00E78174 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11CF244DAA9D00E78174 /* User.swift */; };
 		A46C11D5244EC82400E78174 /* Firestore+Populate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D4244EC82400E78174 /* Firestore+Populate.swift */; };
 		A46C11D8244EC95A00E78174 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D7244EC95A00E78174 /* Utils.swift */; };
-		A46C11DB244EC9FE00E78174 /* ItemTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D9244EC9FE00E78174 /* ItemTableViewDataSource.swift */; };
+		A46C11DB244EC9FE00E78174 /* ItemTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11D9244EC9FE00E78174 /* ItemTableDataSource.swift */; };
 		A46C11DC244EC9FE00E78174 /* LocalCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11DA244EC9FE00E78174 /* LocalCollection.swift */; };
 		A46C11E1244ECBE400E78174 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11DF244ECBE400E78174 /* CollectionCell.swift */; };
 		A46C11F5244ECDB300E78174 /* ItemTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F0244ECDB300E78174 /* ItemTableController.swift */; };
 		A46C11F6244ECDB300E78174 /* AddItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F1244ECDB300E78174 /* AddItemController.swift */; };
 		A46C11F8244ECDB300E78174 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46C11F3244ECDB300E78174 /* ItemCell.swift */; };
 		A478E95124559AD6003F32B9 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A478E95024559AD6003F32B9 /* AlertService.swift */; };
+		A4FA8EDA24852971007A29BA /* CollectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FA8ED924852971007A29BA /* CollectionsTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A4FA8EDC24852971007A29BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A454D89E244C53CE003EFF28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A454D8A5244C53CE003EFF28;
+			remoteInfo = Collections;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2E173F8C1B00B5E1484DFC35 /* Pods-Collections.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Collections.release.xcconfig"; path = "Target Support Files/Pods-Collections/Pods-Collections.release.xcconfig"; sourceTree = "<group>"; };
@@ -45,20 +55,22 @@
 		A454D8BD244C6929003EFF28 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A454D8DF244C6AF4003EFF28 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A4665BB224596EF800951DC6 /* AddCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCollectionController.swift; sourceTree = "<group>"; };
-		A4665BB324596EF800951DC6 /* EditCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCollectionController.swift; sourceTree = "<group>"; };
-		A46C11CB244DA89100E78174 /* CollectionTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableViewDataSource.swift; sourceTree = "<group>"; };
+		A46C11CB244DA89100E78174 /* CollectionTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionTableDataSource.swift; sourceTree = "<group>"; };
 		A46C11CD244DAA9D00E78174 /* Collection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
 		A46C11CE244DAA9D00E78174 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A46C11CF244DAA9D00E78174 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		A46C11D4244EC82400E78174 /* Firestore+Populate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Firestore+Populate.swift"; sourceTree = "<group>"; };
 		A46C11D7244EC95A00E78174 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
-		A46C11D9244EC9FE00E78174 /* ItemTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableViewDataSource.swift; sourceTree = "<group>"; };
+		A46C11D9244EC9FE00E78174 /* ItemTableDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableDataSource.swift; sourceTree = "<group>"; };
 		A46C11DA244EC9FE00E78174 /* LocalCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalCollection.swift; sourceTree = "<group>"; };
 		A46C11DF244ECBE400E78174 /* CollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		A46C11F0244ECDB300E78174 /* ItemTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemTableController.swift; sourceTree = "<group>"; };
 		A46C11F1244ECDB300E78174 /* AddItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemController.swift; sourceTree = "<group>"; };
 		A46C11F3244ECDB300E78174 /* ItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		A478E95024559AD6003F32B9 /* AlertService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
+		A4FA8ED724852971007A29BA /* CollectionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4FA8ED924852971007A29BA /* CollectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsTests.swift; sourceTree = "<group>"; };
+		A4FA8EDB24852971007A29BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AFC904E7533E29B1793B6557 /* Pods_Collections.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Collections.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -71,6 +83,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A4FA8ED424852971007A29BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				A454D8A8244C53CE003EFF28 /* Collections */,
+				A4FA8ED824852971007A29BA /* CollectionsTests */,
 				A454D8A7244C53CE003EFF28 /* Products */,
 				D6C82070BBD5CAB05B56E92A /* Pods */,
 				A794DE8CE6ECF3689D831BBE /* Frameworks */,
@@ -88,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				A454D8A6244C53CE003EFF28 /* Collections.app */,
+				A4FA8ED724852971007A29BA /* CollectionsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,9 +145,9 @@
 			isa = PBXGroup;
 			children = (
 				A478E95024559AD6003F32B9 /* AlertService.swift */,
-				A46C11D9244EC9FE00E78174 /* ItemTableViewDataSource.swift */,
+				A46C11CB244DA89100E78174 /* CollectionTableDataSource.swift */,
+				A46C11D9244EC9FE00E78174 /* ItemTableDataSource.swift */,
 				A46C11DA244EC9FE00E78174 /* LocalCollection.swift */,
-				A46C11CB244DA89100E78174 /* CollectionTableViewDataSource.swift */,
 				A46C11D4244EC82400E78174 /* Firestore+Populate.swift */,
 				A46C11D7244EC95A00E78174 /* Utils.swift */,
 			);
@@ -147,11 +168,19 @@
 			children = (
 				A454D8AD244C53CE003EFF28 /* CollectionTableController.swift */,
 				A46C11F0244ECDB300E78174 /* ItemTableController.swift */,
-				A46C11F1244ECDB300E78174 /* AddItemController.swift */,
 				A4665BB224596EF800951DC6 /* AddCollectionController.swift */,
-				A4665BB324596EF800951DC6 /* EditCollectionController.swift */,
+				A46C11F1244ECDB300E78174 /* AddItemController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		A4FA8ED824852971007A29BA /* CollectionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				A4FA8ED924852971007A29BA /* CollectionsTests.swift */,
+				A4FA8EDB24852971007A29BA /* Info.plist */,
+			);
+			path = CollectionsTests;
 			sourceTree = "<group>";
 		};
 		A794DE8CE6ECF3689D831BBE /* Frameworks */ = {
@@ -194,6 +223,24 @@
 			productReference = A454D8A6244C53CE003EFF28 /* Collections.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A4FA8ED624852971007A29BA /* CollectionsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A4FA8EE024852971007A29BA /* Build configuration list for PBXNativeTarget "CollectionsTests" */;
+			buildPhases = (
+				A4FA8ED324852971007A29BA /* Sources */,
+				A4FA8ED424852971007A29BA /* Frameworks */,
+				A4FA8ED524852971007A29BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A4FA8EDD24852971007A29BA /* PBXTargetDependency */,
+			);
+			name = CollectionsTests;
+			productName = CollectionsTests;
+			productReference = A4FA8ED724852971007A29BA /* CollectionsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -206,6 +253,10 @@
 				TargetAttributes = {
 					A454D8A5244C53CE003EFF28 = {
 						CreatedOnToolsVersion = 11.4.1;
+					};
+					A4FA8ED624852971007A29BA = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = A454D8A5244C53CE003EFF28;
 					};
 				};
 			};
@@ -223,6 +274,7 @@
 			projectRoot = "";
 			targets = (
 				A454D8A5244C53CE003EFF28 /* Collections */,
+				A4FA8ED624852971007A29BA /* CollectionsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -236,6 +288,13 @@
 				A454D8BE244C6929003EFF28 /* GoogleService-Info.plist in Resources */,
 				A454D8B3244C53CE003EFF28 /* Assets.xcassets in Resources */,
 				A454D8B1244C53CE003EFF28 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A4FA8ED524852971007A29BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,11 +364,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A46C11CC244DA89100E78174 /* CollectionTableViewDataSource.swift in Sources */,
-				A4665BB524596EF800951DC6 /* EditCollectionController.swift in Sources */,
+				A46C11CC244DA89100E78174 /* CollectionTableDataSource.swift in Sources */,
 				A46C11D0244DAA9D00E78174 /* Collection.swift in Sources */,
 				A46C11D8244EC95A00E78174 /* Utils.swift in Sources */,
-				A46C11DB244EC9FE00E78174 /* ItemTableViewDataSource.swift in Sources */,
+				A46C11DB244EC9FE00E78174 /* ItemTableDataSource.swift in Sources */,
 				A454D8AE244C53CE003EFF28 /* CollectionTableController.swift in Sources */,
 				A46C11D5244EC82400E78174 /* Firestore+Populate.swift in Sources */,
 				A454D8AA244C53CE003EFF28 /* AppDelegate.swift in Sources */,
@@ -326,7 +384,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A4FA8ED324852971007A29BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4FA8EDA24852971007A29BA /* CollectionsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A4FA8EDD24852971007A29BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A454D8A5244C53CE003EFF28 /* Collections */;
+			targetProxy = A4FA8EDC24852971007A29BA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A454D8AF244C53CE003EFF28 /* Main.storyboard */ = {
@@ -500,6 +574,46 @@
 			};
 			name = Release;
 		};
+		A4FA8EDE24852971007A29BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KF7QVMJ987;
+				INFOPLIST_FILE = CollectionsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.craiovadata.ios.CollectionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Collections.app/Collections";
+			};
+			name = Debug;
+		};
+		A4FA8EDF24852971007A29BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KF7QVMJ987;
+				INFOPLIST_FILE = CollectionsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.craiovadata.ios.CollectionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Collections.app/Collections";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -517,6 +631,15 @@
 			buildConfigurations = (
 				A454D8BB244C53CE003EFF28 /* Debug */,
 				A454D8BC244C53CE003EFF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A4FA8EE024852971007A29BA /* Build configuration list for PBXNativeTarget "CollectionsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A4FA8EDE24852971007A29BA /* Debug */,
+				A4FA8EDF24852971007A29BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

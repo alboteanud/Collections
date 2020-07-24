@@ -5,14 +5,16 @@ import FirebaseFirestore
 /// A class that populates a table view using RestaurantTableViewCell cells
 /// with restaurant data from a Firestore query. Consumers should update the
 /// table view with new data from Firestore in the updateHandler closure.
-@objc class ItemTableViewDataSource: NSObject, UITableViewDataSource {
+@objc class ItemTableDataSource: NSObject, UITableViewDataSource {
 
   private let items: LocalCollection<Item>
+    
 
   /// Returns an instance of RestaurantTableViewDataSource. Consumers should update the
   /// table view with new data from Firestore in the updateHandler closure.
   public init(items: LocalCollection<Item>) {
     self.items = items
+    
   }
 
   /// Returns an instance of RestaurantTableViewDataSource. Consumers should update the
@@ -56,6 +58,29 @@ import FirebaseFirestore
     cell.populate(item: item)
     return cell
   }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let item = items[indexPath.row]
+            print("deleting item named: \(item.name)")
+            deleteItem(itemID: item.documentID)
+        }else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            print("insert selected")
+        }
+    }
+    
+    func deleteItem(itemID: String){
+        let collectionRef = items.query as! CollectionReference
+        collectionRef.document(itemID).delete() { error in
+            if let error = error {
+                print("Error deleting document: \(error)")
+            } else {
+                print("Delete confirmed by the server")
+            }
+        }
+    }
+    
 
 }
 

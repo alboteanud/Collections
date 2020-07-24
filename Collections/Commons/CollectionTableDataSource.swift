@@ -5,15 +5,16 @@ import FirebaseFirestore
 /// A class that populates a table view using CollectionTableViewCell cells
 /// with collection data from a Firestore query. Consumers should update the
 /// table view with new data from Firestore in the updateHandler closure.
-@objc class CollectionTableViewDataSource: NSObject, UITableViewDataSource {
+@objc class CollectionTableDataSource: NSObject, UITableViewDataSource {
 
     private let collections: LocalCollection<Collection>
-     var sectionTitle: String?
+    var sectionTitle: String?
     
     /// Returns an instance of CollectionTableViewDataSource. Consumers should update the
      /// table view with new data from Firestore in the updateHandler closure.
      public init(collections: LocalCollection<Collection>) {
        self.collections = collections
+    
      }
     
 
@@ -60,5 +61,26 @@ import FirebaseFirestore
       cell.populate(collection: collection)
       return cell
     }
+    
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            let collection = collections[indexPath.row]
+//            print("deleting collection named: \(collection.name)")
+//            deleteCollection(collectionID: collection.documentID)
+//        }else if editingStyle == .insert {
+//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+//            print("insert selected")
+//        }
+//    }
+    
+//    func deleteCollection(collectionID: String){
+//        Firestore.firestore().aCollection(forCollection: collectionID).delete() { error in
+//            if let error = error {
+//                print("Error deleting document: \(error)")
+//            } else {
+//                print("Delete confirmed by the server")
+//            }
+//        }
+//    }
     
 }
